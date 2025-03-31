@@ -89,11 +89,3 @@ CREATE TABLE Avis (
                           FOREIGN KEY (auteur_numetu) REFERENCES Utilisateur(numetu) ON DELETE CASCADE,
 );
 
-
--- Insertion d'un utilisateur standard
-INSERT INTO "User" (firstname, lastname, email, password) VALUES
-    ('John', 'Doe', 'john.doe@example.com', 'securePassword123');
-
--- Insertion d'un administrateur
-INSERT INTO "User" (firstname, lastname, email, password) VALUES
-    ('root', 'toor', 'ro@ot.fr', 'adminPassword456');
