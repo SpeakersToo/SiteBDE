@@ -27,18 +27,6 @@ CREATE TABLE Evenement (
                        nb_places INT NOT NULL
 );
 
--- Création de la table 'Commande'
-CREATE TABLE Commande (
-                          numero SERIAL PRIMARY KEY,
-                          article_id INT NOT NULL,
-                          numetu VARCHAR(8),
-                          nb_articles INT NOT NULL,
-                          date TIMESTAMP NOT NULL,
-                          FOREIGN KEY (article_id) REFERENCES Sous_article(id) ON DELETE CASCADE,
-                          FOREIGN KEY (numetu) REFERENCES Utilisateur(numetu) ON DELETE CASCADE
-);
-
-
 -- Création de la table 'Article'
 CREATE TABLE Article (
                          id SERIAL PRIMARY KEY,
@@ -59,6 +47,19 @@ CREATE TABLE Sous_article (
                         FOREIGN KEY (article_id) REFERENCES Article(id) ON DELETE CASCADE
 );
 
+
+-- Création de la table 'Commande'
+CREATE TABLE Commande (
+                          numero SERIAL PRIMARY KEY,
+                          article_id INT NOT NULL,
+                          numetu VARCHAR(8),
+                          nb_articles INT NOT NULL,
+                          date TIMESTAMP NOT NULL,
+                          FOREIGN KEY (article_id) REFERENCES Sous_article(id) ON DELETE CASCADE,
+                          FOREIGN KEY (numetu) REFERENCES Utilisateur(numetu) ON DELETE CASCADE
+);
+
+
 -- Création de la table 'Actualite'
 CREATE TABLE Actualite (
                           id SERIAL PRIMARY KEY,
@@ -66,7 +67,7 @@ CREATE TABLE Actualite (
                           objet VARCHAR(255) NOT NULL,
                           date TIMESTAMP NOT NULL,
                           contenu TEXT NOT NULL,
-                          FOREIGN KEY (auteur_numetu) REFERENCES Utilisateur(numetu) ON DELETE CASCADE,
+                          FOREIGN KEY (auteur_numetu) REFERENCES Utilisateur(numetu) ON DELETE CASCADE
 );
 
 -- Création de la table 'Messages'
@@ -76,7 +77,7 @@ CREATE TABLE Messages (
                           objet VARCHAR(255) NOT NULL,
                           date TIMESTAMP NOT NULL,
                           contenu TEXT NOT NULL,
-                          FOREIGN KEY (auteur_numetu) REFERENCES Utilisateur(numetu) ON DELETE CASCADE,
+                          FOREIGN KEY (auteur_numetu) REFERENCES Utilisateur(numetu) ON DELETE CASCADE
 );
 
 
@@ -86,6 +87,6 @@ CREATE TABLE Avis (
                           auteur_numetu VARCHAR(8),
                           note INT NOT NULL CHECK (note BETWEEN 1 AND 5),
                           contenu TEXT,
-                          FOREIGN KEY (auteur_numetu) REFERENCES Utilisateur(numetu) ON DELETE CASCADE,
+                          FOREIGN KEY (auteur_numetu) REFERENCES Utilisateur(numetu) ON DELETE CASCADE
 );
 
