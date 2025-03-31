@@ -11,16 +11,26 @@
 {% endif %}
 
     <form method="post" action="login.php">
+		<!-- Email -->
         <div class="mb-3">
             <label for="email" class="form-label">Adresse email</label>
             <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
         </div>
+
+		<!-- Mot de passe -->
         <div class="mb-3">
             <label for="password" class="form-label">Mot de passe</label>
             <input type="password" class="form-control" id="password" name="password" required>
         </div>
-        <div class="d-flex flex-row-reverse">
+
+		<!-- Bouton -->
+        <div class="d-flex justify-content-center">
             <button type="submit" class="btn btn-primary">Se connecter</button>
+        </div>
+
+		<!-- Lien vers page d'inscription -->
+		<div class="text-center mt-3">
+            <a href="user_create.php">Pas encore de compte ? Inscrivez-vous</a>
         </div>
     </form>
 {% endblock %}
