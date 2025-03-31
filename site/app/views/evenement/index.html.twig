@@ -13,19 +13,31 @@
     </tr>
     </thead>
     <tbody>
-   {% for evenement in evenementss %}
-        <tr>
-            <td>{{ evenement.id }}</td>
-            <td>{{ evenement.nom }}</td>
-            <td>{{ evenement.date_heure}}</td>
-            <td>{{ evenement.adresse}}</td>
-            <td>{{ evenement.nb_places}}</td>
-            <td>
-                <a href="evenement_update.php?id={{ evenement.id}}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-                <a href="evenement_delete.php?id={{ evenement.id}}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
-            </td>
-        </tr>
-    {% endfor %}
+
+	<div class="row">
+            {% for evenement in evenements %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4 ">
+                <div class="card h-100 shadow-sm border-light bg-light">
+                    <!-- Contenu de la carte -->
+                    <div class="card-body">
+                        <h5 class="card-title">{{ evenement.nom }}</h5>
+                    </div>
+					
+					<!-- Image de l'événement -->
+                    <img src="assets/images/laser1.jpg"
+                         alt="{{ evenement.nom }}"
+                         class="card-img-top"
+                         style="object-fit: cover; height: 200px;">
+
+                    <!-- Footer de la carte -->
+                    <div class="card-footer d-flex">
+						<p class="link">Voir l'événement</p>
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </tbody>
 </table>
 <div class="d-flex flex-row-reverse">
