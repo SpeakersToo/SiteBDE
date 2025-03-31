@@ -2,7 +2,7 @@
 class Evenement {
 
     public function __construct(private ?int $id,
-    private string $name,
+    private string $nom,
     private string $date_heure,
     private string $description,
     private string $adresse,
@@ -15,8 +15,8 @@ class Evenement {
         return $this->id;
     }
 
-    public function getName(): string {
-        return $this->name;
+    public function getNom(): string {
+        return $this->nom;
     }
 
     public function getDateHeure(): string {
@@ -40,8 +40,8 @@ class Evenement {
     }
 
 
-    public function setName(string $name): void {
-        $this->name = $name;
+    public function setNom(string $nom): void {
+        $this->nom = $nom;
     }
 
     public function setDateHeure(string $date_heure): void {
