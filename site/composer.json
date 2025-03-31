@@ -1,7 +1,8 @@
 {
     "authors": [
         {
-            "email": "salimkhr@gmail.com"
+            "name": "salimkhr",
+			"email": "salimkhr@gmail.com"
         }
     ],
     "require": {

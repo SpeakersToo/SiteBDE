@@ -17,48 +17,40 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="index.php">MonSite</a>
+        
+		<!-- Logo BDE -->
+		<a class="navbar-brand" href="index.php"><img src="../../assets/images/bde.png" width=100dp alt="Logo du BDE"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fa-solid fa-bars"></i>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
+
+		<!-- Espacement -->
+		<div style="width:8%"></div>
+
+		<!-- Liste des boutons de navigation -->
+        <div class="collapse navbar-collapse" id="navbarNav" style="left-padding:100px; left-margin:100px;">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="articles.php">Articles</a>
+                    <a class="nav-link" href="index.php">ACCUEIL</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="users.php">Utilisateur</a>
+                    <a class="nav-link" href="about.php">À PROPOS</a>
                 </li>
-            </ul>
-            <!-- Lien vers le panier avec popover -->
-            <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#" id="cartPopover" data-bs-toggle="popover" data-bs-placement="bottom"
-                       data-bs-content="
-                           {% if purchases|length > 0 %}
-                           <ul>
-                               {% for purchase in purchases %}
-                                   <li>
-                                       {{ purchase.article.name }} x{{ purchase.quantity }} -
-                                       {{ purchase.article.price|number_format(2, ',', ' ') }}€
-                                   </li>
-                               {% endfor %}
-                           </ul>
-                           <a href='validate_purchases.php' class='btn btn-primary btn-sm mt-2'>Valider</a>
-                           {% else %}
-                               <p>Votre panier est vide.</p>
-                           {% endif %}
-                       "
-                       data-bs-html="true">
-                        <i class="fa-solid fa-cart-shopping"></i> Panier
-                        {% if purchases|length > 0 %}
-                            <span class="badge bg-danger ms-2">{{ purchases|length }}</span>
-                        {% endif %}
-                    </a>
+                    <a class="nav-link" href="events.php">ÉVÉNEMENTS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.php">CONTACT</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="boutique.php">BOUTIQUE</a>
                 </li>
             </ul>
         </div>
+		
+		<!-- Photo de profil -->
+        <a class="navbar-brand" href="index.php"><img src="../../assets/images/profil.png" width=80dp alt="Profil"></a>
     </div>
 </nav>
 
@@ -66,21 +58,6 @@
     {% block body %}{% endblock %}
 </div>
 
-<!-- Pour gérer le Popover, inclure le script JS de Bootstrap -->
-<script>
-    // Activer le popover au chargement de la page avec html activé
-    document.addEventListener('DOMContentLoaded', function () {
-        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
-
-        // Parcourir tous les éléments qui ont le data-bs-toggle="popover"
-        [...popoverTriggerList].forEach(popoverTriggerEl => {
-            // Initialiser le popover pour chaque élément et activer l'option html: true
-            new bootstrap.Popover(popoverTriggerEl, {
-                html: true  // Permet l'interprétation du HTML dans le contenu du popover
-            });
-        });
-    });
-</script>
 
 <!-- Bootstrap Bundle JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
