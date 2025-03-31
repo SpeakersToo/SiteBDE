@@ -1,0 +1,11 @@
+{
+    "authors": [
+        {
+            "name": "salimkhr",
+            "email": "salimkhr@gmail.com"
+        }
+    ],
+    "require": {
+        "twig/twig": "^3.19"
+    }
+}
