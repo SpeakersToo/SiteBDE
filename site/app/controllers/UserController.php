@@ -55,7 +55,8 @@ class UserController extends Controller {
                     throw new Exception('Erreur lors de l\'enregistrement de l\'utilisateur.');
                 }
 
-                $this->redirectTo('users.php'); // Redirection après création
+                // $this->redirectTo('users.php'); // Redirection après création
+				$this->redirectTo('index.php');
             } catch (Exception $e) {
                 $errors = explode(', ', $e->getMessage()); // Récupération des erreurs
             }
