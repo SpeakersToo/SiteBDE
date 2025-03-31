@@ -24,6 +24,7 @@ CREATE TABLE Evenement (
                        nom VARCHAR(255) NOT NULL,
                        date TIMESTAMP NOT NULL,
                        description TEXT NOT NULL,
+                       adresse VARCHAR(255),
                        nb_places INT NOT NULL
 );
 
