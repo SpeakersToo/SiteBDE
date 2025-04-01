@@ -7,13 +7,14 @@ DROP TABLE IF EXISTS Commande CASCADE;
 DROP TABLE IF EXISTS Article CASCADE;
 DROP TABLE IF EXISTS Sous_article CASCADE;
 DROP TABLE IF EXISTS Messages CASCADE;
+DROP TABLE IF EXISTS User CASCADE;
 
 -- Création de la table 'Utilisateur'
 CREATE TABLE Utilisateur (
                           numetu VARCHAR(8) PRIMARY KEY,
                           estAdmin BOOLEAN NOT NULL,
+						  prenom VARCHAR(255) NOT NULL,
                           nom VARCHAR(255) NOT NULL,
-                          prenom VARCHAR(255) NOT NULL,
                           mail VARCHAR(255) NOT NULL,
                           pwd VARCHAR(255) NOT NULL
 );

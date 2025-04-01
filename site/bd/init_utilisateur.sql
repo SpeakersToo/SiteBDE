@@ -1,0 +1,1 @@
+INSERT INTO Utilisateur VALUES (233100, FALSE, 'Jane', 'Doe', 'janedoe@mail.com', 'bidon123');

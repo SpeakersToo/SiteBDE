@@ -24,13 +24,17 @@ class UserRepository {
     }
 
     public function create(User $user): bool {
-        $stmt = $this->pdo->prepare('INSERT INTO "User" (firstname,lastname,email,password ) VALUES (:firstname, :lastname, :email, :password)');
+        $stmt = $this->pdo->prepare('INSERT INTO "Utilisateur" (firstname, lastname, email, password) VALUES (:firstname, :lastname, :email, :password)');
         return $stmt->execute([
             'firstname' => $user->getFirstname(),
             'lastname' => $user->getLastname(),
             'email' => $user->getEmail(),
             'password' => $user->getPassword(),
         ]);
+
+		//$stmt = $this->pdo->prepare('DELETE FROM "User"');
+		//$stmt->execute();
+		//return true;
     }
 
     public function update(User $user): bool
