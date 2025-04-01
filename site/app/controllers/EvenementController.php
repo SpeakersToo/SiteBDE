@@ -1,5 +1,6 @@
 <?php
 
+require_once './app/services/AuthService.php';
 require_once './app/core/Controller.php';
 require_once './app/repositories/EvenementRepository.php';
 require_once './app/trait/FormTrait.php';
@@ -26,35 +27,40 @@ class EvenementController extends Controller{
             $this->redirectTo('login.php');
         }
     }
+    public function showEvenement(int $id)
+    {
+        $evenementRepo = new EvenementRepository();
+        $evenement = $evenementRepo->findById($id);
 
-	public function update()
+        if (!$evenement) {
+            die("Événement introuvable.");
+        }
+
+        $this->view('/evenement/evenement_show.html.twig', ['evenement' => $evenement]);
+    }
+	/*public function update()
     {
         $this->checkAuth();
 
         $id = $this->getQueryParam('id');
 
         if ($id === null) {
-            throw new Exception('Article ID is required.');
+            throw new Exception('Evenement ID is required.');
         }
         $evenementRepo = new EvenementRepository();
-        $article = $repository->findById($id);
 
-        $category = $categoryRepo->findByArticle($article);
-        $article->setCategory($category);
-
-        if ($article === null) {
-            throw new Exception('Article not found');
+        if ($evenement === null) {
+            throw new Exception('Evenement not found');
         }
 
         $data = array_merge([
-            'name'=>$article->getName(),
+            'nom'=>$evenement->getNom(),
             'stock'=>$article->getStock(),
             'price'=>$article->getPrice(),
             'description'=>$article->getDescription(),
             'category_id'=>$article->getCategory()->getId()
         ],$this->getAllPostParams()); //Get submitted data
 
-        $categories =  $categoryRepo->findAll();
 
         $errors = [];
 
@@ -107,5 +113,5 @@ class EvenementController extends Controller{
             'data' => $data,
             'errors' => $errors
         ]);
-    }
+    }*/
 }

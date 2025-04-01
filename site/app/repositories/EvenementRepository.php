@@ -41,4 +41,13 @@ class EvenementRepository {
         return new Evenement($row['id'], $row['nom'], $row['date'], $row['description'], $row['adresse'], $row['nb_places']);
     }
 
+    public function findById(int $id): ?Evenement {
+        $stmt = $this->pdo->prepare('SELECT * FROM Evenement WHERE id = :id');
+        $stmt->execute(['id' => $id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        return $row ? $this->createEvenementFromRow($row) : null;
+    }
+    
+
 }
