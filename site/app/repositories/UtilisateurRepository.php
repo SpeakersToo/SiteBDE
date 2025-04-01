@@ -13,15 +13,23 @@ class UtilisateurRepository {
         $stmt = $this->pdo->query('SELECT * FROM Utilisateur');
         $utilisateurs = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+			//print_r($row);
             $utilisateurs[] = $this->createUtilisateurFromRow($row);
         }
-		print_r($utilisateurs);
         return $utilisateurs;
     }
 
     private function createUtilisateurFromRow(array $row): Utilisateur
     {
-        return new Utilisateur($row['id'], $row['num_etu'], (bool)$row['est_admin'], $row['prenom'], $row['nom'], $row['email'], $row['mdp']);
+        return new Utilisateur(
+			$row['id'], 
+			$row['num_etu'], 
+			$row['est_admin'],
+			$row['prenom'], 
+			$row['nom'], 
+			$row['email'], 
+			$row['mdp']
+		);
     }
 
     public function create(Utilisateur $utilisateur): bool {

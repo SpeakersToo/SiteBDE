@@ -4,6 +4,7 @@ require_once './app/core/Controller.php';
 require_once './app/repositories/UtilisateurRepository.php';
 require_once './app/trait/FormTrait.php';
 require_once './app/trait/AuthTrait.php';
+require_once './app/services/AuthService.php';
 
 class UtilisateurController extends Controller {
 
@@ -14,8 +15,11 @@ class UtilisateurController extends Controller {
         $repository = new UtilisateurRepository();
         $utilisateurs = $repository->findAll();
 
+		$authService = new AuthService();
+		//$utilisateurActif = $authService->getUtilisateur() ?? null;
+
         // Ensuite, affiche la vue
-        $this->view('/utilisateur/index.html.twig',  ['utilisateurs' => $utilisateurs]);
+        $this->view('/utilisateur/index.html.twig',  ['utilisateurs' => $utilisateurs, 'utilisateurActif' => $utilisateurActif]);
     }
 
     public function create() {

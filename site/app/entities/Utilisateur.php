@@ -82,13 +82,12 @@ class Utilisateur {
 
     public function __unserialize(array $data):void
     {
-		$this->id = $data['id'];
-        $this->numEtu = $data['numEtu'];
-		$this->estAdmin = $data['estAdmin'];
-        $this->prenom = $data['prenom'];
-        $this->nom = $data['nom'];
-        $this->email = $data['email'];
-        $this->mdp = $data['mdp'];
+		$this->id = $data['id'] ?? null;
+		$this->numEtu = $data['numEtu'] ?? '';
+		$this->estAdmin = $data['estAdmin'] ?? null;
+		$this->prenom = $data['prenom'] ?? '';
+		$this->nom = $data['nom'] ?? '';
+		$this->email = $data['email'] ?? '';
     }
 }
 ?>

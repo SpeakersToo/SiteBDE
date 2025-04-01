@@ -1,6 +1,8 @@
 <?php
 require_once './app/trait/AuthTrait.php';
 require_once './app/repositories/UtilisateurRepository.php';
+require_once './app/entities/Utilisateur.php';
+
 class AuthService {
 
     use AuthTrait;
@@ -29,4 +31,10 @@ class AuthService {
             session_start();
         return isset($_SESSION['utilisateur']);
     }
+
+	public function estAdmin(): bool
+	{
+		$utilisateur = $this->getUtilisateur();
+		return $utilisateur && $utilisateur.getEstAdmin();
+	}
 }

@@ -18,7 +18,7 @@
         <tr>
             <td> {{ utilisateur.id }} </td>
 			<td> {{ utilisateur.numEtu }} </td>
-			<td> {{ utilisateur.estAdmin }} </td>
+			<td> {{ utilisateur.estAdmin ? 't' : 'f' }} </td>
             <td> {{ utilisateur.prenom }} </td>
             <td> {{ utilisateur.nom }} </td>
             <td> {{ utilisateur.email }} </td>

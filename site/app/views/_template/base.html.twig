@@ -23,10 +23,6 @@
 		<a class="navbar-brand" href="index.php">
 			<img src="../../assets/images/bde.png" width=100dp alt="Logo du BDE">
 		</a>
-			<!--<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-					data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-				<i class="fa-solid fa-bars"></i>
-			</button>-->
 
 		<!-- Liste des boutons de navigation -->
         <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
@@ -49,10 +45,12 @@
             </ul>
         </div>
 		
-		<!-- Photo de profil -->
-        <a class="navbar-brand" href="login.php">
-			<img src="../../assets/images/profil.png" width=80dp alt="Profil">
-		</a>
+		<!-- Connexion -->
+		{% if utilisateurActif is defined %}
+			<a class="navbar-brand" href="index.php">{{ utilisateurActif.prenom ~ ' ' ~ utilisateurActif.nom }}</a>
+		{% else %}
+			<a class="navbar-brand" href="login.php">Connectez-vous</a>
+		{% endif %}
     </div>
 </nav>
 
