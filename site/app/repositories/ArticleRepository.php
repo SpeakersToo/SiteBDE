@@ -35,7 +35,7 @@ class ArticleRepository {
 
     private function createArticleFromRow(array $row): Article
     {
-        return new Article($row['id'], $row['name'], $row['price'], $row['description'], $row['stock']);
+        return new Article($row['id'], $row['categorie'], $row['nom'], $row['description'], $row['prix'],  20);
     }
 
     public function findById(int $id): ?Article

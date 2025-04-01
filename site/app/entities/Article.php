@@ -2,11 +2,12 @@
 class Article {
 
     public function __construct(private ?int $id,
-    private string $name,
-    private float $price,
+    private string $categorie,
+    private string $nom,
     private string $description,
-    private int $stock,
-    private ?Category $category = null) {
+    private float $prix,
+    private int $stock    /*,
+    private ?Category $category = null*/) {
 
     }
 
@@ -14,12 +15,16 @@ class Article {
         return $this->id;
     }
 
-    public function getName(): string {
-        return $this->name;
+    public function getCategorie(): string {
+        return $this->categorie;
     }
 
-    public function getPrice(): float {
-        return $this->price;
+    public function getNom(): string {
+        return $this->nom;
+    }
+
+    public function getPrix(): float {
+        return $this->prix;
     }
 
     public function getDescription(): string {
@@ -30,12 +35,16 @@ class Article {
         return $this->stock;
     }
 
-    public function setName(string $name): void {
-        $this->name = $name;
+	
+    public function setCategorie(string $categorie): void {
+        $this->categorie = $categorie;
+    }
+    public function setNom(string $nom): void {
+        $this->nom = $nom;
     }
 
-    public function setPrice(float $price): void {
-        $this->price = $price;
+    public function setPrix(float $prix): void {
+        $this->prix = $prix;
     }
 
     public function setDescription(string $description): void {
@@ -46,7 +55,7 @@ class Article {
         $this->stock = $stock;
     }
 
-    public function getCategory(): ?Category
+/*    public function getCategory(): ?Category
     {
         return $this->category;
     }
@@ -54,6 +63,6 @@ class Article {
     public function setCategory(?Category $category): void
     {
         $this->category = $category;
-    }
+    }*/
 }
 ?>

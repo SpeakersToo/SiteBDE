@@ -34,6 +34,7 @@ CREATE TABLE Article (
                          id SERIAL PRIMARY KEY,
                          categorie VARCHAR(255) NOT NULL,
                          nom VARCHAR(255) NOT NULL,
+						 description TEXT NOT NULL,
                          prix DECIMAL(10, 2) NOT NULL
 );
 
