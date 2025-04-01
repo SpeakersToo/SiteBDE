@@ -6,7 +6,7 @@ class Evenement {
     private string $date_heure,
     private string $description,
     private string $adresse,
-    private int $nbPlaces,
+    private int $nb_places,
     private ?string $image = null) {
 
     }
@@ -19,7 +19,7 @@ class Evenement {
         return $this->nom;
     }
 
-    public function getDateHeure(): string {
+    public function getDate_heure(): string {
         return $this->date_heure;
     }
 
@@ -31,8 +31,8 @@ class Evenement {
         return $this->adresse;
     }
 
-    public function getNbPlaces(): int {
-        return $this->nbPlaces;
+    public function getNb_places(): int {
+        return $this->nb_places;
     }
 
     public function getImage(): ?string {
@@ -56,8 +56,8 @@ class Evenement {
         $this->adresse = $adresse;
     }
 
-    public function setNbPlaces(int $nbPlaces): void {
-        $this->nbPlaces = $nbPlaces;
+    public function setNbPlaces(int $nb_places): void {
+        $this->nb_places = $nb_places;
     }
 
     public function setImage(string $image): void {
