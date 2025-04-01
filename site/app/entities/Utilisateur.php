@@ -1,11 +1,21 @@
 <?php
 class Utilisateur {
-    public function __construct(private ?int $numEtud, private bool $estAdmin, private string $prenom, private string $nom, private string $mail, private ?string $pwd)
+    public function __construct(private ?int $id, private string $numEtu, private bool $estAdmin, private string $prenom, private string $nom, private string $email, private string $mdp)
     {}
 
-    public function getNumEtud(): ?int
+	public function getId(): ?int
+	{
+		return $this->id;
+	}
+
+    public function getNumEtu(): string
     {
-        return $this->numEtud;
+        return $this->numEtu;
+    }
+
+	public function setNumEtu(string $numEtu): void
+    {
+        $this->numEtu = $numEtu;
     }
 
 	public function getEstAdmin(): bool
@@ -38,45 +48,47 @@ class Utilisateur {
         $this->nom = $nom;
     }
 
-    public function getMail(): string
+    public function getEmail(): string
     {
-        return $this->mail;
+        return $this->email;
     }
 
-    public function setMail(string $mail): void
+    public function setEmail(string $email): void
     {
-        $this->mail = $mail;
+        $this->email = $email;
     }
 
-    public function getPwd(): ?string
+    public function getMdp(): string
     {
-        return $this->pwd;
+        return $this->mdp;
     }
 
-    public function setPwd(?string $pwd): void
+    public function setMdp(string $mdp): void
     {
-        $this->pwd = $pwd;
+        $this->mdp = $mdp;
     }
 
     public function __serialize(): array
     {
         return [
-            'numEtud' => $this->numEtud,
+			'id' => $this->id,
+            'numEtu' => $this->numEtu,
 			'estAdmin' => $this->estAdmin,
             'prenom' => $this->prenom,
             'nom' => $this->nom,
-            'mail' => $this->mail
+            'email' => $this->email
         ];
     }
 
     public function __unserialize(array $data):void
     {
-        $this->numEtud = $data['numEtud'];
+		$this->id = $data['id'];
+        $this->numEtu = $data['numEtu'];
 		$this->estAdmin = $data['estAdmin'];
         $this->prenom = $data['prenom'];
         $this->nom = $data['nom'];
-        $this->mail = $data['mail'];
-        $this->pwd = $data['pwd'];
+        $this->email = $data['email'];
+        $this->mdp = $data['mdp'];
     }
 }
 ?>

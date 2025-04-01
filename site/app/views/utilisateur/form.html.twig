@@ -1,0 +1,64 @@
+{% extends '_template/base.html.twig' %}
+
+{% block body %}
+
+<form method="POST" action="{{ id ? 'utilisateur_update.php?id=' ~ id :  'utilisateur_create.php'}}" class="container mt-5">
+    <h1 class="mb-4">{{ id ? 'Mise à jour':'Création'}} d'un utilisateur</h1>
+
+    <!-- Erreurs -->
+    {% if errors %}
+        <div class="alert alert-danger text-center" role="alert">
+            <ul class="mb-0">
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+	<!-- Numéro étudiant -->
+    <div class="mb-3">
+        <label for="numEtu" class="form-label">Numéro étudiant</label>
+        <input type="text" name="numEtu" id="numEtu" class="form-control"
+               value="{{ data.numEtu }}" required>
+    </div>
+
+    <!-- Prénom d'utilisateur -->
+    <div class="mb-3">
+        <label for="prenom" class="form-label">Prénom</label>
+        <input type="text" name="prenom" id="prenom" class="form-control"
+               value="{{ data.prenom }}" required>
+    </div>
+
+    <!-- Nom d'utilisateur -->
+    <div class="mb-3">
+        <label for="nom" class="form-label">Nom</label>
+        <input type="text" name="nom" id="nom" class="form-control"
+               value="{{ data.nom }}" required>
+    </div>
+
+    <!-- Email -->
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" name="email" id="email" class="form-control"
+               value="{{ data.email }}" required>
+    </div>
+
+    <!-- Mot de passe -->
+    <div class="mb-3">
+        <label for="mdp" class="form-label">Mot de passe</label>
+        <input type="mdp" name="mdp" id="mdp" class="form-control" required>
+    </div>
+
+    <!-- Bouton -->
+	<div class="d-flex justify-content-center">
+		<button type="submit" class="btn btn-primary">{{ id ? 'Mettre à jour':'Créer'}}</button>
+	</div>
+
+	<!-- Lien vers page de connexion -->
+	<div class="text-center mt-3">
+		<a href="login.php">Vous avez déjà un compte ? Connectez-vous.</a>
+	</div>
+</form>
+
+{% endblock %}
