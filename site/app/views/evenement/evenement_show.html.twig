@@ -3,7 +3,7 @@
 {% block body %}
     <div class="container mt-4">
         <h1>{{ evenement.nom }}</h1>
-        <p><strong>Date :</strong> {{ evenement.date|date("d-m-Y H:i") }}</p>
+        <p><strong>Date :</strong> {{ evenement.date_heure }}</p>
         <p><strong>Description :</strong> {{ evenement.description }}</p>
         <p><strong>Adresse :</strong> {{ evenement.adresse }}</p>
         <p><strong>Nombre de places :</strong> {{ evenement.nb_places }}</p>
