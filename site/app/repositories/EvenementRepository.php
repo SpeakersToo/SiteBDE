@@ -15,20 +15,21 @@ class EvenementRepository {
         $stmt = $this->pdo->query('SELECT * FROM Evenement');
         $evenements = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
             $evenements[] = $this->createEvenementFromRow($row);
+			
         }
         return $evenements;
     }
 
     public function create(Evenement $evenement): bool {
         $stmt = $this->pdo->prepare('
-        INSERT INTO Evenement (nom, date_heure, description, stock, category_id)
-        VALUES (:name, :price, :description, :stock, :category_id)
+        INSERT INTO Evenement VALUES (:nom, :date, :description, :adresse, :nb_places)
     ');
 
         return $stmt->execute([
             'nom' => $evenement->getNom(),
-            'date_heure' => $evenement->getDateHeure(),
+            'date' => $evenement->getDateHeure(),
             'description' => $evenement->getDescription(),
             'adresse' => $evenement->getAdresse(),
             'nb_places' => $evenement->getNbPlaces()
@@ -37,7 +38,7 @@ class EvenementRepository {
 
     public function createEvenementFromRow(array $row)
     {
-        return new Evenement($row['id'], $row['nom'], $row['date'], $row['description'], $row['adresse'], $row['nbPlaces']);
+        return new Evenement($row['id'], $row['nom'], $row['date'], $row['description'], $row['adresse'], $row['nb_places']);
     }
 
 }
