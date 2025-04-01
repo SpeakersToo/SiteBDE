@@ -12,9 +12,9 @@ class EvenementController extends Controller{
     public function index() {
         //$this->checkAuth();
 
-        //$evenementRepo = new EvenementRepository();
+        $evenementRepo = new EvenementRepository();
 
-        //$evenements = $evenementRepo->findAll();
+        $evenements = $evenementRepo->findAll();
 
 
         $this->view('/evenement/index.html.twig',  ['evenements' => $evenements]);
