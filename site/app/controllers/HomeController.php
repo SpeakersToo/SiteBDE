@@ -9,48 +9,15 @@ class HomeController extends Controller
 	use FormTrait;
    public function index()
    {
-       $articleRepo = new ArticleRepository();
-       $categoryRepo = new CategoryRepository();
-
 	   $authService = new AuthService();
 	   $utilisateurActif = $authService->getUtilisateur();
-
-       $articles = $articleRepo->findAll();
-
-       foreach ($articles as $article) {
-           $category = $categoryRepo->findByArticle($article);
-           $article->setCategory($category);
-       }
 
         if(session_status() == PHP_SESSION_NONE)
            session_start();
 
        $this->view('index.html.twig',  [
             'title' => 'Le site du BDE',
-            'articles' => $articles,
-            'purchases'=> array_map(static fn(string $purchase) => unserialize($purchase),$_SESSION['purchases']??[]),
 			'utilisateurActif' => $utilisateurActif
         ]);
-   }
-
-   public function purchase()
-   {
-       $articleRepo = new ArticleRepository();
-       $article = $articleRepo->findById($this->getQueryParam('article_id'));
-
-       $authService = new AuthService();
-       $purchase = new Purchase(null,$article,$authService->getUtilisateur(),$this->getPostParam('quantity'));
-
-       if(session_status() == PHP_SESSION_NONE)
-           session_start();
-
-       if(!isset($_SESSION['purchases']))
-       {
-           $_SESSION['purchases']=[];
-       }
-
-       $_SESSION['purchases'][] = serialize($purchase);
-
-       $this->redirectTo('index.php');
    }
 }

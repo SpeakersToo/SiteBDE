@@ -16,7 +16,12 @@ class UtilisateurController extends Controller {
         $utilisateurs = $repository->findAll();
 
 		$authService = new AuthService();
-		//$utilisateurActif = $authService->getUtilisateur() ?? null;
+		$utilisateurActif = $authService->getUtilisateur();
+
+		//if ($utilisateurActif === null || !$utilisateurActif->getEstAdmin()) {
+		//	$this->redirectTo('index.php');
+		//	return;
+		//}
 
         // Ensuite, affiche la vue
         $this->view('/utilisateur/index.html.twig',  ['utilisateurs' => $utilisateurs, 'utilisateurActif' => $utilisateurActif]);
