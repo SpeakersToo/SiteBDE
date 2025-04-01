@@ -15,16 +15,17 @@ class UtilisateurRepository {
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $utilisateurs[] = $this->createUtilisateurFromRow($row);
         }
+		print_r($utilisateurs);
         return $utilisateurs;
     }
 
     private function createUtilisateurFromRow(array $row): Utilisateur
     {
-        return new Utilisateur($row['id'], $row['numEtu'], $row['estAdmin'], $row['prenom'], $row['nom'], $row['email'], $row['mdp']);
+        return new Utilisateur($row['id'], $row['num_etu'], (bool)$row['est_admin'], $row['prenom'], $row['nom'], $row['email'], $row['mdp']);
     }
 
     public function create(Utilisateur $utilisateur): bool {
-        $stmt = $this->pdo->prepare('INSERT INTO Utilisateur (numEtu, estAdmin, prenom, nom, email, mdp) VALUES (:numEtu, :estAdmin, :prenom, :nom, :email, :mdp)');
+        $stmt = $this->pdo->prepare('INSERT INTO Utilisateur (num_etu, est_admin, prenom, nom, email, mdp) VALUES (:numEtu, :estAdmin, :prenom, :nom, :email, :mdp)');
         return $stmt->execute([
 			'numEtu' => $utilisateur->getNumEtu(),
 			'estAdmin' => $utilisateur->getEstAdmin() ? 1 : 0,
@@ -41,7 +42,7 @@ class UtilisateurRepository {
 
     public function update(Utilisateur $utilisateur): bool
     {
-        $stmt = $this->pdo->prepare('UPDATE Utilisateur SET numEtu = :newNumEtu, estAdmin = :newEstAdmin, prenom = :newPrenom, nom = :newNom, email = :newEmail, mdp = :newPassword WHERE id = :id');
+        $stmt = $this->pdo->prepare('UPDATE Utilisateur SET num_etu = :newNumEtu, est_admin = :newEstAdmin, prenom = :newPrenom, nom = :newNom, email = :newEmail, mdp = :newPassword WHERE id = :id');
         return $stmt->execute([
 			'newNumEtu' => $utilisateur->getNumEtu(),
 			'newEstAdmin' => $utilisateur->getEstAdmin(),

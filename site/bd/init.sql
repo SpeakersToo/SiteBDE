@@ -11,8 +11,8 @@ DROP TABLE IF EXISTS Article CASCADE;
 -- Création de la table 'Utilisateur'
 CREATE TABLE Utilisateur (
 						  id SERIAL PRIMARY KEY,
-                          numetu CHAR(8) NOT NULL,
-                          estAdmin BOOLEAN NOT NULL,
+                          num_etu CHAR(8) NOT NULL,
+                          est_admin BOOLEAN NOT NULL,
 						  prenom VARCHAR(255) NOT NULL,
                           nom VARCHAR(255) NOT NULL,
                           email VARCHAR(255) NOT NULL,
