@@ -47,8 +47,18 @@
     <!-- Mot de passe -->
     <div class="mb-3">
         <label for="mdp" class="form-label">Mot de passe</label>
-        <input type="mdp" name="mdp" id="mdp" class="form-control" required>
+        <input type="password" name="mdp" id="mdp" class="form-control">
     </div>
+
+    <!-- Checkbox "Est Admin" - visible uniquement si l'utilisateur est admin -->
+    {% if isAdmin %}
+    <div class="mb-3 form-check">
+        <input type="checkbox" name="estAdmin" id="estAdmin" class="form-check-input" 
+               {% if data.estAdmin %} checked {% endif %}>
+        <label for="estAdmin" class="form-check-label">Utilisateur Administrateur</label>
+    </div>
+    {% endif %}
+	
 
     <!-- Bouton -->
 	<div class="d-flex justify-content-center">

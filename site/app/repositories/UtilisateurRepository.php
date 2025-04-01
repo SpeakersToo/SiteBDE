@@ -50,8 +50,9 @@ class UtilisateurRepository {
 
     public function update(Utilisateur $utilisateur): bool
     {
-        $stmt = $this->pdo->prepare('UPDATE Utilisateur SET num_etu = :newNumEtu, est_admin = :newEstAdmin, prenom = :newPrenom, nom = :newNom, email = :newEmail, mdp = :newPassword WHERE id = :id');
-        return $stmt->execute([
+        $stmt = $this->pdo->prepare('UPDATE Utilisateur SET num_etu = :newNumEtu, est_admin = :newEstAdmin, prenom = :newPrenom, nom = :newNom, email = :newEmail, mdp = :newMdp WHERE id = :id');
+        print_r($utilisateur->getEstAdmin());
+		return $stmt->execute([
 			'newNumEtu' => $utilisateur->getNumEtu(),
 			'newEstAdmin' => $utilisateur->getEstAdmin(),
             'newPrenom' => $utilisateur->getPrenom(),

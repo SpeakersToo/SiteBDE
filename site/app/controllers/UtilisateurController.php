@@ -66,17 +66,21 @@ class UtilisateurController extends Controller {
                     throw new Exception('Erreur lors de l\'enregistrement de l\'utilisateur.');
                 }
 
-                $this->redirectTo('utilisateurs.php'); // Redirection après création
-				//$this->redirectTo('login.php');
+				$this->redirectTo('login.php');
             } catch (Exception $e) {
                 $errors = explode(', ', $e->getMessage()); // Récupération des erreurs
             }
         }
 
+		$authService = new AuthService();
+		$utilisateurActif = $authService->getUtilisateur();
+
         // Affichage du formulaire
         $this->view('/utilisateur/form.html.twig',  [
             'data' => $data,
             'errors' => $errors,
+			//'isAdmin' => $utilisateurActif && $utilisateurActif->getEstAdmin()
+			'isAdmin' => true
         ]);
     }
 
@@ -120,7 +124,7 @@ class UtilisateurController extends Controller {
                 if (empty($data['email']) || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
                     $errors[] = 'Un email valide est requis.';
                 }
-                if (empty($data['mdp']) || strlen($data['mdp']) < 6) {
+                if (!empty($data['mdp']) && strlen($data['mdp']) < 6) {
                     $errors[] = 'Le mot de passe doit contenir au moins 6 caractères.';
                 }
 
@@ -130,7 +134,7 @@ class UtilisateurController extends Controller {
 
                 // Update utilisateur object
 				$utilisateur->setNumEtu($data['numEtu']);
-				$utilisateur->setEstAdmin(false);
+				$utilisateur->setEstAdmin($data['estAdmin'] ?? false);
                 $utilisateur->setPrenom($data['prenom']);
                 $utilisateur->setNom($data['nom']);
                 $utilisateur->setEmail($data['email']);
@@ -153,7 +157,21 @@ class UtilisateurController extends Controller {
             }
         }
 
+		$authService = new AuthService();
+		$utilisateurActif = $authService->getUtilisateur();
+
         // Display update form
-        $this->view('/utilisateur/form.html.twig',  ['data' => $data, 'errors' => $errors, 'id' => $id]);
+        $this->view('/utilisateur/form.html.twig',  [
+			'data' => $data, 
+			'errors' => $errors, 
+			'id' => $id,
+			//'isAdmin' => $utilisateurActif && $utilisateurActif->getEstAdmin()
+			'isAdmin' => true
+		]);
     }
+
+	public function delete()
+	{
+		$this->redirectTo('utilisateurs.php'); 
+	}
 }
