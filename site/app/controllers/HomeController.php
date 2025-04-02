@@ -12,9 +12,6 @@ class HomeController extends Controller
 	   $authService = new AuthService();
 	   $utilisateurActif = $authService->getUtilisateur();
 
-        if(session_status() == PHP_SESSION_NONE)
-           session_start();
-
        $this->view('index.html.twig',  [
             'title' => 'Le site du BDE',
 			'utilisateurActif' => $utilisateurActif
