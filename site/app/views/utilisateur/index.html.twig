@@ -5,10 +5,9 @@
     <thead>
     <tr>
         <th scope="col">#ID</th>
-		<th scope="col">numEtu</th>
-		<th scope="col">estAdmin</th>
-        <th scope="col">Prénom</th>
-        <th scope="col">Nom</th>
+		<th scope="col">Numéro étuiant</th>
+		<th scope="col">Admin</th>
+        <th scope="col">Nom complet</th>
         <th scope="col">Email</th>
         <th scope="col">Actions</th>
     </tr>
@@ -18,9 +17,8 @@
         <tr>
             <td> {{ utilisateur.id }} </td>
 			<td> {{ utilisateur.numEtu }} </td>
-			<td> {{ utilisateur.estAdmin ? 't' : 'f' }} </td>
-            <td> {{ utilisateur.prenom }} </td>
-            <td> {{ utilisateur.nom }} </td>
+			<td> {{ utilisateur.estAdmin ? 'Vrai' : '' }} </td>
+            <td> {{ utilisateur.prenom ~ ' ' ~ utilisateur.nom }} </td>
             <td> {{ utilisateur.email }} </td>
             <td>
                 <a href="utilisateur_update.php?id={{ utilisateur.id }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
