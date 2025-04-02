@@ -1,0 +1,11 @@
+{% extends '_template/base.html.twig' %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>{{ rubrique.nom }}</h1>
+        <p><strong>Description :</strong> {{ rubrique.description }}</p>
+
+        <br><br>
+        <a href="rubrique.php" class="btn btn-primary">Retour à la liste</a>
+    </div>
+{% endblock %}
