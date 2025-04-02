@@ -12,6 +12,10 @@ class ArticleController extends Controller{
 
     public function index() {
         $this->checkAuth();
+		
+		$authService = new AuthService();
+
+		//$utilisateurActif = $authService->getUtilisateur();
 
         $articleRepo = new ArticleRepository();
         $categoryRepo = new CategoryRepository();
@@ -23,7 +27,7 @@ class ArticleController extends Controller{
             $article->setCategory($category);
         }
 
-        $this->view('/article/index.html.twig',  ['articles' => $articles]);
+        $this->view('/article/index.html.twig',  ['articles' => $articles]); // envoyer utilisateur ici
     }
 
     public function create() {

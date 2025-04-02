@@ -52,6 +52,12 @@ CREATE TABLE Sous_article (
                         FOREIGN KEY (article_id) REFERENCES Article(id) ON DELETE CASCADE
 );
 
+-- Création de la table 'Rubrique'
+CREATE TABLE Rubrique (
+                       id SERIAL PRIMARY KEY,
+                       nom VARCHAR(255) NOT NULL,
+                       description TEXT NOT NULL
+);
 
 -- Création de la table 'Commande'
 CREATE TABLE Commande (
