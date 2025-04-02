@@ -20,7 +20,7 @@ CREATE TABLE Utilisateur (
                           mdp VARCHAR(255) NOT NULL
 );
 
-INSERT INTO Utilisateur (num_etu, est_admin, newsletter, prenom, nom, email, mdp) VALUES ('', TRUE, FALSE, 'owner', '', 'owner@mail.com', '$2y$10$tXrXVbIJ5L2VXUR7Avcq1ORxMD7oD4TaRv50zQqvP39ib9Ojd3mqe');
+INSERT INTO Utilisateur (num_etu, est_admin, newsletter, prenom, nom, email, mdp) VALUES ('', TRUE, FALSE, 'Owner', '', 'owner@mail.com', '$2y$10$tXrXVbIJ5L2VXUR7Avcq1ORxMD7oD4TaRv50zQqvP39ib9Ojd3mqe');
 
 -- Création de la table 'Evenement'
 CREATE TABLE Evenement (

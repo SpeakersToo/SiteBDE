@@ -24,7 +24,7 @@
             <td> {{ utilisateur.email }} </td>
             <td>
                 <a href="utilisateur_update.php?id={{ utilisateur.id }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-                <a href="utilisateur_delete.php?id={{ utilisateur.id }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                {% if utilisateur.id != 1 %}<a href="utilisateur_delete.php?id={{ utilisateur.id }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>{% endif %}
             </td>
         </tr>
     {% endfor %}

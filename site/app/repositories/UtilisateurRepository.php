@@ -51,7 +51,7 @@ class UtilisateurRepository {
         $stmt = $this->pdo->prepare('UPDATE Utilisateur SET num_etu = :newNumEtu, est_admin = :newEstAdmin, newsletter = :newNewsletter, prenom = :newPrenom, nom = :newNom, email = :newEmail, mdp = :newMdp WHERE id = :id');
 		return $stmt->execute([
 			'newNumEtu' => $utilisateur->getNumEtu(),
-			'newEstAdmin' => $utilisateur->estAdmin()  ? 1 : 0,
+			'newEstAdmin' => $utilisateur->estAdmin() ? 1 : 0,
 			'newNewsletter' => $utilisateur->newsletter()  ? 1 : 0,
             'newPrenom' => $utilisateur->getPrenom(),
             'newNom' => $utilisateur->getNom(),

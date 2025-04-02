@@ -2,6 +2,12 @@
 
 {% block body %}
 
+{% if isAdmin %}
+<div class="d-flex justify-content-start mb-3">
+    <a href="utilisateurs.php" class="btn btn-secondary">Gérer les utilisateurs</a>
+</div>
+{% endif %}
+
 <form method="POST" action="{{ id ? 'utilisateur_update.php?id=' ~ id :  'utilisateur_create.php'}}" class="container mt-5">
     <h1 class="mb-4">{{ id ? 'Mise à jour':'Création'}} d'un utilisateur</h1>
 
@@ -51,8 +57,9 @@
     </div>
 
     <!-- Checkbox "Admin" - visible uniquement si l'utilisateur est admin -->
-    {% if isAdmin %}
+    {% if isAdmin and id != 1 and id != utilisateurActif.id %}
     <div class="mb-3 form-check">
+		<input type="hidden" name="estAdmin" value="0">
         <input type="checkbox" name="estAdmin" id="estAdmin" class="form-check-input" 
                {% if data.estAdmin %} checked {% endif %}>
         <label for="estAdmin" class="form-check-label">Admin</label>
@@ -60,6 +67,7 @@
     {% endif %}
 
     <div class="mb-3 form-check">
+		<input type="hidden" name="newsletter" value="0">
         <input type="checkbox" name="newsletter" id="newsletter" class="form-check-input" 
                {% if data.newsletter %} checked {% endif %}>
         <label for="newsletter" class="form-check-label">S'inscrire au newsletter</label>
@@ -78,7 +86,7 @@
 	{% endif %}
 </form>
 
-{% if id %}
+{% if id and id != 1 %}
 <div class="d-flex justify-content-center mt-3">
 	<form method="POST" action="{{ 'utilisateur_delete.php?id=' ~ id }}">
 		<input type="hidden" name="id" value="{{ id }}">

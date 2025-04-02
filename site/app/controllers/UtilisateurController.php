@@ -34,6 +34,9 @@ class UtilisateurController extends Controller {
         $data = $this->getAllPostParams(); // Récupération des données soumises
         $errors = [];
 
+		$authService = new AuthService();
+		$utilisateurActif = $authService->getUtilisateur();
+
         if (!empty($data)) {
             try {
                 $errors = [];
@@ -64,13 +67,15 @@ class UtilisateurController extends Controller {
                 $utilisateur = new Utilisateur(
 					null, 
 					$data['numEtu'], 
-					!empty($data['estAdmin']) && $data['estAdmin'] == '1', 
-					!empty($data['newsletter']) && $data['newsletter'] == '1', 
+					$data['estAdmin'] === 'on' ? 1 : 0,
+					$data['newsletter'] === 'on' ? 1 : 0,
 					$data['prenom'], 
 					$data['nom'], 
 					$data['email'],
 					$hashedPassword
 				);
+				var_dump("estAdmin ".$data['estAdmin']);
+				var_dump("newsletter ".$data['newsletter']);
 
                 // Sauvegarde dans la base de données
                 $utilisateurRepo = new UtilisateurRepository();
@@ -78,14 +83,15 @@ class UtilisateurController extends Controller {
                     throw new Exception('Erreur lors de l\'enregistrement de l\'utilisateur.');
                 }
 
-				$this->redirectTo('login.php');
+				if($utilisateurActif && $utilisateurActif->estAdmin())
+					$this->redirectTo('utilisateurs.php');
+				else
+					$this->redirectTo('login.php');
+
             } catch (Exception $e) {
                 $errors = explode(', ', $e->getMessage()); // Récupération des erreurs
             }
         }
-
-		$authService = new AuthService();
-		$utilisateurActif = $authService->getUtilisateur();
 
         // Affichage du formulaire
         $this->view('/utilisateur/form.html.twig',  [
@@ -147,8 +153,8 @@ class UtilisateurController extends Controller {
 
                 // Update utilisateur object
 				$utilisateur->setNumEtu($data['numEtu']);
-				$utilisateur->setAdmin($data['estAdmin'] ?? false);
-				$utilisateur->setNewsletter($data['newsletter'] ?? false);
+				$utilisateur->setAdmin($data['estAdmin'] === 'on' ? 1 : 0);
+				$utilisateur->setNewsletter($data['newsletter'] === 'on' ? 1 : 0);
                 $utilisateur->setPrenom($data['prenom']);
                 $utilisateur->setNom($data['nom']);
                 $utilisateur->setEmail($data['email']);
@@ -203,6 +209,11 @@ class UtilisateurController extends Controller {
 			throw new Exception('Error deleting the utilisateur.');
 		}
 	
-		$this->redirectTo('logout.php');
+		$utilisateurActif = (new AuthService())->getUtilisateur();
+
+		if($utilisateurActif && $utilisateurActif->estAdmin())	
+			$this->redirectTo('utilisateurs.php');
+		else
+			$this->redirectTo('logout.php');
 	}
 }
