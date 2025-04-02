@@ -14,8 +14,7 @@ class ArticleController extends Controller{
         $this->checkAuth();
 		
 		$authService = new AuthService();
-
-		//$utilisateurActif = $authService->getUtilisateur();
+		$utilisateurActif = $authService->getUtilisateur();
 
         $articleRepo = new ArticleRepository();
         $categoryRepo = new CategoryRepository();
@@ -27,13 +26,20 @@ class ArticleController extends Controller{
             $article->setCategory($category);
         }
 
-        $this->view('/article/index.html.twig',  ['articles' => $articles]); // envoyer utilisateur ici
+        $this->view('/article/index.html.twig',  [
+			'articles' => $articles, 
+			'isAdmin' => $utilisateurActif && $utilisateurActif->estAdmin(),
+			'utilisateurActif' => $utilisateurActif
+		]);
     }
 
     public function create() {
         $this->checkAuth();
         $repository = new CategoryRepository();
         $categories =  $repository->findAll();
+
+		$authService = new AuthService();
+		$utilisateurActif = $authService->getUtilisateur();
 
         $data = $this->getAllPostParams();
         $errors = [];
@@ -61,20 +67,20 @@ class ArticleController extends Controller{
                     throw new Exception(implode(', ', $errors));
                 }
 
-                $article = new Article(
-                    null,
-                    $data['name'],
-                    (float)$data['price'],
-                    $data['description'] ?? '',
-                    (int)$data['stock']
-                );
+                //$article = new Article(
+                //    null,
+                //    $data['name'],
+                //    (float)$data['price'],
+                //    $data['description'] ?? '',
+                //    (int)$data['stock']
+                //);
 
-                $article->setCategory(new Category((int)$data['category_id'], ''));
+                //$article->setCategory(new Category((int)$data['category_id'], ''));
 
                 $repository = new ArticleRepository();
-                if (!$repository->create($article)) {
-                    throw new Exception('Erreur lors de la création de l\'article.');
-                }
+                //if (!$repository->create($article)) {
+                 //   throw new Exception('Erreur lors de la création de l\'article.');
+                //}
 
                 $this->redirectTo('articles.php');
             } catch (Exception $e) {
@@ -82,10 +88,11 @@ class ArticleController extends Controller{
             }
         }
 
-        $this->view('/article/form', [
+        $this->view('/article/form.html.twig', [
             'categories' => $categories,
             'data' => $data,
-            'errors' => $errors
+            'errors' => $errors,
+			'utilisateurActif' => $utilisateurActif
         ]);
     }
 
