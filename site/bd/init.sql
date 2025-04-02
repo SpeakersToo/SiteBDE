@@ -13,6 +13,7 @@ CREATE TABLE Utilisateur (
 						  id SERIAL PRIMARY KEY,
                           num_etu CHAR(8) NOT NULL,
                           est_admin BOOLEAN NOT NULL,
+						  newsletter BOOLEAN NOT NULL,
 						  prenom VARCHAR(255) NOT NULL,
                           nom VARCHAR(255) NOT NULL,
                           email VARCHAR(255) NOT NULL,
