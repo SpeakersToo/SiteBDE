@@ -82,6 +82,7 @@ class Utilisateur {
 
     public function __unserialize(array $data):void
     {
+		print_r($data);
 		$this->id = $data['id'] ?? null;
 		$this->numEtu = $data['numEtu'] ?? '';
 		$this->estAdmin = $data['estAdmin'] ?? null;

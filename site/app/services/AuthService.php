@@ -11,7 +11,14 @@ class AuthService {
     {
         if(session_status() == PHP_SESSION_NONE)
             session_start();
-        return unserialize($_SESSION['utilisateur']);
+
+		if (!isset($_SESSION['utilisateur'])) {
+			return null;
+		}
+
+		$utilisateur = unserialize($_SESSION['utilisateur']);
+		
+		return ($utilisateur instanceof Utilisateur) ? $utilisateur : null;
     }
 
     public function setUtilisateur(Utilisateur $utilisateur): void
