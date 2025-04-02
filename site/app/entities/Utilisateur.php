@@ -1,6 +1,6 @@
 <?php
 class Utilisateur {
-    public function __construct(private ?int $id, private string $numEtu, private bool $estAdmin, private string $prenom, private string $nom, private string $email, private string $mdp)
+    public function __construct(private ?int $id, private string $numEtu, private bool $estAdmin, private bool $newsletter, private string $prenom, private string $nom, private string $email, private string $mdp)
     {}
 
 	public function getId(): ?int
@@ -18,14 +18,24 @@ class Utilisateur {
         $this->numEtu = $numEtu;
     }
 
-	public function getEstAdmin(): bool
+	public function estAdmin(): bool
     {
         return $this->estAdmin;
     }
 
-	public function setEstAdmin(bool $estAdmin): void
+	public function setAdmin(bool $estAdmin): void
     {
         $this->estAdmin = $estAdmin;
+    }
+
+	public function newsletter(): bool
+    {
+        return $this->newsletter;
+    }
+
+	public function setNewsletter(bool $newsletter): void
+    {
+        $this->newsletter = $newsletter;
     }
 
     public function getPrenom(): string
@@ -82,7 +92,6 @@ class Utilisateur {
 
     public function __unserialize(array $data):void
     {
-		print_r($data);
 		$this->id = $data['id'] ?? null;
 		$this->numEtu = $data['numEtu'] ?? '';
 		$this->estAdmin = $data['estAdmin'] ?? null;

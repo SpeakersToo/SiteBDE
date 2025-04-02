@@ -34,4 +34,11 @@ class AuthController extends Controller {
 
         $this->view('login.html.twig', $data ); // Affiche la vue login.php
     }
+	
+	public function logout() {
+		$authService = new AuthService();
+		$authService->logout();
+
+		$this->redirectTo('index.php');
+	}
 }

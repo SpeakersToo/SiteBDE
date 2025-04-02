@@ -61,8 +61,13 @@
         </div>
 		
 		<!-- Connexion -->
-		{% if utilisateurActif is defined %}
-			<a class="navbar-brand" href="index.php">{{ utilisateurActif.prenom ~ ' ' ~ utilisateurActif.nom }}</a>
+		{% if utilisateurActif is defined and utilisateurActif is not null %}
+			<div class="navbar-brand d-flex flex-column">
+				<a href="utilisateur_update.php?id={{ utilisateurActif.id}}" class="text-decoration-none text-dark fw-bold">
+					{{ utilisateurActif.prenom ~ ' ' ~ utilisateurActif.nom }}
+				</a>
+				<a href="logout.php" class="text-decoration-none small">Se déconnecter</a>
+			</div>
 		{% else %}
 			<a class="navbar-brand" href="login.php">Connectez-vous</a>
 		{% endif %}

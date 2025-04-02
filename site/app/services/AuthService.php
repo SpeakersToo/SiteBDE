@@ -30,7 +30,13 @@ class AuthService {
 
     public function logout(): void
     {
-        session_destroy();
+        if (session_status() == PHP_SESSION_NONE) {
+			session_start();
+		}
+
+		unset($_SESSION['utilisateur']);
+		
+		session_destroy();
     }
 
     public function isLoggedIn(): bool {
@@ -42,6 +48,6 @@ class AuthService {
 	public function estAdmin(): bool
 	{
 		$utilisateur = $this->getUtilisateur();
-		return $utilisateur && $utilisateur.getEstAdmin();
+		return $utilisateur && $utilisateur.estAdmin();
 	}
 }

@@ -18,13 +18,16 @@ class UtilisateurController extends Controller {
 		$authService = new AuthService();
 		$utilisateurActif = $authService->getUtilisateur();
 
-		//if ($utilisateurActif === null || !$utilisateurActif->getEstAdmin()) {
-		//	$this->redirectTo('index.php');
-		//	return;
-		//}
+		if ($utilisateurActif === null || !$utilisateurActif->estAdmin()) {
+			$this->redirectTo('index.php');
+			return;
+		}
 
         // Ensuite, affiche la vue
-        $this->view('/utilisateur/index.html.twig',  ['utilisateurs' => $utilisateurs, 'utilisateurActif' => $utilisateurActif]);
+        $this->view('/utilisateur/index.html.twig',  [
+			'utilisateurs' => $utilisateurs, 
+			'utilisateurActif' => $utilisateurActif
+		]);
     }
 
     public function create() {
@@ -58,7 +61,16 @@ class UtilisateurController extends Controller {
 
                 // Création de l'objet utilisateur
                 $hashedPassword = $this->hash($data['mdp']);
-                $utilisateur = new Utilisateur(null, $data['numEtu'], false, $data['prenom'], $data['nom'], $data['email'],$hashedPassword);
+                $utilisateur = new Utilisateur(
+					null, 
+					$data['numEtu'], 
+					!empty($data['estAdmin']) && $data['estAdmin'] == '1', 
+					!empty($data['newsletter']) && $data['newsletter'] == '1', 
+					$data['prenom'], 
+					$data['nom'], 
+					$data['email'],
+					$hashedPassword
+				);
 
                 // Sauvegarde dans la base de données
                 $utilisateurRepo = new UtilisateurRepository();
@@ -79,8 +91,8 @@ class UtilisateurController extends Controller {
         $this->view('/utilisateur/form.html.twig',  [
             'data' => $data,
             'errors' => $errors,
-			//'isAdmin' => $utilisateurActif && $utilisateurActif->getEstAdmin()
-			'isAdmin' => true
+			'isAdmin' => $utilisateurActif && $utilisateurActif->estAdmin(),
+			'utilisateurActif' => $utilisateurActif
         ]);
     }
 
@@ -89,7 +101,7 @@ class UtilisateurController extends Controller {
         $id = $this->getQueryParam('id');
 
         if ($id === null) {
-                throw new Exception('Utilisateur ID is required.');
+            throw new Exception('Utilisateur ID is required.');
         }
         $repository = new UtilisateurRepository();
         $utilisateur = $repository->findById($id);
@@ -100,7 +112,8 @@ class UtilisateurController extends Controller {
 
         $data = array_merge([
 			'numEtu'=>$utilisateur->getNumEtu(),
-			'estAdmin'=>$utilisateur->getEstAdmin(),
+			'estAdmin'=>$utilisateur->estAdmin(),
+			'newsletter'=>$utilisateur->newsletter(),
             'prenom'=>$utilisateur->getPrenom(),
             'nom'=>$utilisateur->getNom(),
             'email'=>$utilisateur->getEmail(),
@@ -134,7 +147,8 @@ class UtilisateurController extends Controller {
 
                 // Update utilisateur object
 				$utilisateur->setNumEtu($data['numEtu']);
-				$utilisateur->setEstAdmin($data['estAdmin'] ?? false);
+				$utilisateur->setAdmin($data['estAdmin'] ?? false);
+				$utilisateur->setNewsletter($data['newsletter'] ?? false);
                 $utilisateur->setPrenom($data['prenom']);
                 $utilisateur->setNom($data['nom']);
                 $utilisateur->setEmail($data['email']);
@@ -165,13 +179,30 @@ class UtilisateurController extends Controller {
 			'data' => $data, 
 			'errors' => $errors, 
 			'id' => $id,
-			//'isAdmin' => $utilisateurActif && $utilisateurActif->getEstAdmin()
-			'isAdmin' => true
+			'isAdmin' => $utilisateurActif && $utilisateurActif->estAdmin(),
+			'utilisateurActif' => $utilisateurActif
 		]);
     }
 
 	public function delete()
 	{
-		$this->redirectTo('utilisateurs.php'); 
+		$id = $this->getQueryParam('id');
+	
+		if ($id === null) {
+			throw new Exception('Utilisateur ID is required.');
+		}
+	
+		$repository = new UtilisateurRepository();
+		$utilisateur = $repository->findById($id);
+	
+		if ($utilisateur === null) {
+			throw new Exception('Utilisateur not found');
+		}
+	
+		if (!$repository->delete($id)) {
+			throw new Exception('Error deleting the utilisateur.');
+		}
+	
+		$this->redirectTo('logout.php');
 	}
 }

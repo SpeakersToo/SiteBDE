@@ -11,11 +11,12 @@ class HomeController extends Controller
 	use FormTrait;
     public function index()
     {
-	   $authService = new AuthService();
-	   $utilisateurActif = $authService->getUtilisateur();
-
         if(session_status() == PHP_SESSION_NONE)
            session_start();
+
+		$authService = new AuthService();
+		$utilisateurActif = $authService->getUtilisateur();
+	
 		   
 		$evenementRepo = new EvenementRepository();
 		$rubriqueRepo = new RubriqueRepository();

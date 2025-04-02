@@ -25,6 +25,7 @@ class UtilisateurRepository {
 			$row['id'], 
 			$row['num_etu'], 
 			$row['est_admin'],
+			$row['newsletter'],
 			$row['prenom'], 
 			$row['nom'], 
 			$row['email'], 
@@ -33,28 +34,25 @@ class UtilisateurRepository {
     }
 
     public function create(Utilisateur $utilisateur): bool {
-        $stmt = $this->pdo->prepare('INSERT INTO Utilisateur (num_etu, est_admin, prenom, nom, email, mdp) VALUES (:numEtu, :estAdmin, :prenom, :nom, :email, :mdp)');
+        $stmt = $this->pdo->prepare('INSERT INTO Utilisateur (num_etu, est_admin, newsletter, prenom, nom, email, mdp) VALUES (:numEtu, :estAdmin, :newsletter, :prenom, :nom, :email, :mdp)');
         return $stmt->execute([
 			'numEtu' => $utilisateur->getNumEtu(),
-			'estAdmin' => $utilisateur->getEstAdmin() ? 1 : 0,
+			'estAdmin' => $utilisateur->estAdmin() ? 1 : 0,
+			'newsletter' => $utilisateur->newsletter() ? 1 : 0,
             'prenom' => $utilisateur->getPrenom(),
             'nom' => $utilisateur->getNom(),
             'email' => $utilisateur->getEmail(),
             'mdp' => $utilisateur->getMdp(),
         ]);
-
-		//$stmt = $this->pdo->prepare('DELETE FROM "User"');
-		//$stmt->execute();
-		//return true;
     }
 
     public function update(Utilisateur $utilisateur): bool
     {
-        $stmt = $this->pdo->prepare('UPDATE Utilisateur SET num_etu = :newNumEtu, est_admin = :newEstAdmin, prenom = :newPrenom, nom = :newNom, email = :newEmail, mdp = :newMdp WHERE id = :id');
-        print_r($utilisateur->getEstAdmin());
+        $stmt = $this->pdo->prepare('UPDATE Utilisateur SET num_etu = :newNumEtu, est_admin = :newEstAdmin, newsletter = :newNewsletter, prenom = :newPrenom, nom = :newNom, email = :newEmail, mdp = :newMdp WHERE id = :id');
 		return $stmt->execute([
 			'newNumEtu' => $utilisateur->getNumEtu(),
-			'newEstAdmin' => $utilisateur->getEstAdmin(),
+			'newEstAdmin' => $utilisateur->estAdmin()  ? 1 : 0,
+			'newNewsletter' => $utilisateur->newsletter()  ? 1 : 0,
             'newPrenom' => $utilisateur->getPrenom(),
             'newNom' => $utilisateur->getNom(),
             'newEmail' => $utilisateur->getEmail(),
@@ -80,4 +78,9 @@ class UtilisateurRepository {
             return $this->createUtilisateurFromRow($utilisateur);
         return null;
     }
+
+	public function delete(int $id): bool {
+		$stmt = $this->pdo->prepare('DELETE FROM Utilisateur WHERE id = :id');
+		return $stmt->execute(['id' => $id]);
+	}	
 }
