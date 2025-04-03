@@ -46,4 +46,12 @@
         </div>
     </div>
 </div>
+<!-- Ajouter une condition : uniquement si on est admin -->
+{% if isAdmin %}
+<div class="d-flex flex-row-reverse">
+    <a href="article_create.php" class="btn btn-success">
+        <i class="fa fa-plus"></i> Ajouter un article
+    </a>
+</div>
+{% endif %}
 {% endblock %}

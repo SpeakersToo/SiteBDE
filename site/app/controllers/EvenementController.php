@@ -5,7 +5,6 @@ require_once './app/core/Controller.php';
 require_once './app/repositories/EvenementRepository.php';
 require_once './app/trait/FormTrait.php';
 
-
 class EvenementController extends Controller{
 
     //use FormTrait;
@@ -13,12 +12,19 @@ class EvenementController extends Controller{
     public function index() {
         //$this->checkAuth();
 
+		$authService = new AuthService();
+		$utilisateurActif = $authService->getUtilisateur();
+
         $evenementRepo = new EvenementRepository();
 
         $evenements = $evenementRepo->findAll();
 
 
-        $this->view('/evenement/index.html.twig',  ['evenements' => $evenements]);
+        $this->view('/evenement/index.html.twig',  [
+			'evenements' => $evenements,
+			'isAdmin' => $utilisateurActif && $utilisateurActif->estAdmin(),
+			'utilisateurActif' => $utilisateurActif
+		]);
     }
 
     private function checkAuth() {
