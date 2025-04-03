@@ -204,6 +204,10 @@ class UtilisateurController extends Controller {
 		if ($utilisateur === null) {
 			throw new Exception('Utilisateur not found');
 		}
+
+		if($id === 1) {
+			$this->redirectTo('utilisateurs.php');
+		}
 	
 		if (!$repository->delete($id)) {
 			throw new Exception('Error deleting the utilisateur.');
