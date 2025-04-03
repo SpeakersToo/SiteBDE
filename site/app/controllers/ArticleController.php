@@ -96,6 +96,17 @@ class ArticleController extends Controller{
         }
     }
 
+    public function showArticle(int $id)
+    {
+        $articleRepo = new ArticleRepository();
+        $article = $articleRepo->findById($id);
+        if(!$article)
+        {
+            die("Article introuvable");
+        }
+        $this->view('/article/article_show.html.twig', ['article' => $article]);
+    }
+
     public function update()
     {
         $this->checkAuth();

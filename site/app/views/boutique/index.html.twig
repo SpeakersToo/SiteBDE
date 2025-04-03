@@ -4,13 +4,15 @@
 <div class="most-popular">
     <div class="container">
         <div class="heading-section text-left mb-5">
-            <h2 class="mb-4">BDE Informatique</h2>
-            <p>Le bureau des étudiants de l’IUT du Havre, qu’est-ce que c’est?</p>
+            <h1 class="mb-4">BOUTIQUE</h1>
+            <p>Retrouvez ici tous les produits du BDE </p>
         </div>
         <div class="row">
             {% for article in articles %}
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4 ">
+                
                 <div class="card h-100 shadow-sm border-light bg-light">
+                    <a href="article_show.php?id={{ article.id }}" style="text-decoration:none; color:black">
                     <!-- Image de l'article -->
                     <img src="assets/images/boutique/article{{ article.id }}.jpg"
                          alt="{{ article.nom }}"
@@ -23,6 +25,7 @@
                         <h6 class="text-muted">{{ article.categorie }}</h6>
                         <p class="card-text text-truncate" style="max-height: 60px;">{{ article.description }}</p>
                     </div>
+                    </a>
 
                     <!-- Footer de la carte -->
                     <div class="card-footer d-flex">
