@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS Messages CASCADE;
 DROP TABLE IF EXISTS Utilisateur CASCADE;
 DROP TABLE IF EXISTS Sous_article CASCADE;
 DROP TABLE IF EXISTS Article CASCADE;
+DROP TABLE IF EXISTS Rubrique CASCADE;
 
 -- Création de la table 'Utilisateur'
 CREATE TABLE Utilisateur (
