@@ -5,9 +5,7 @@ class Article {
     private string $categorie,
     private string $nom,
     private string $description,
-    private float $prix,
-    private int $stock    /*,
-    private ?Category $category = null*/) {
+    private float $prix) {
 
     }
 
@@ -30,11 +28,6 @@ class Article {
     public function getDescription(): string {
         return $this->description;
     }
-
-    public function getStock(): int {
-        return $this->stock;
-    }
-
 	
     public function setCategorie(string $categorie): void {
         $this->categorie = $categorie;
@@ -51,18 +44,5 @@ class Article {
         $this->description = $description;
     }
 
-    public function setStock(int $stock): void {
-        $this->stock = $stock;
-    }
-
-/*    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?Category $category): void
-    {
-        $this->category = $category;
-    }*/
 }
 ?>

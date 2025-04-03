@@ -47,7 +47,7 @@ CREATE TABLE Article (
 CREATE TABLE Sous_article (
                         id SERIAL PRIMARY KEY,
                         article_id INT NOT NULL,
-                        couleur VARCHAR(255) NOT NULL,
+                        couleur VARCHAR(255),
                         taille VARCHAR(10),
                         stock INT NOT NULL,
                         FOREIGN KEY (article_id) REFERENCES Article(id) ON DELETE CASCADE
@@ -102,3 +102,40 @@ CREATE TABLE Avis (
                           FOREIGN KEY (utilisateur_id) REFERENCES Utilisateur(id) ON DELETE CASCADE
 );
 
+-- Création de la procédure pour insérer un article avec un sous-article par défaut
+CREATE OR REPLACE PROCEDURE CreateArticleWithSousArticle(
+    p_categorie VARCHAR(255),
+    p_nom VARCHAR(255),
+    p_description TEXT,
+    p_prix DECIMAL(10, 2)
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    INSERT INTO Article (categorie, nom, description, prix)
+    VALUES (p_categorie, p_nom, p_description, p_prix);
+    
+    PERFORM pg_catalog.setval('article_id_seq', lastval(), true);
+
+    INSERT INTO Sous_article (article_id, couleur, taille, stock)
+    VALUES (lastval(), NULL, NULL, 0);
+END;
+$$;
+
+-- Création de la procédure pour modifier un sous-article
+CREATE OR REPLACE PROCEDURE UpdateSousArticle(
+    p_id INT,              -- ID du sous-article à modifier
+    p_couleur VARCHAR(255), -- nouvelle couleur
+    p_taille VARCHAR(10),   -- nouvelle taille
+    p_stock INT            -- nouveau stock
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    UPDATE Sous_article
+    SET couleur = p_couleur,
+        taille = p_taille,
+        stock = p_stock
+    WHERE id = p_id;
+END;
+$$;

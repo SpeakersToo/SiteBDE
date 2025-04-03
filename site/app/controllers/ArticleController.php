@@ -2,7 +2,6 @@
 
 require_once './app/services/AuthService.php';
 require_once './app/repositories/ArticleRepository.php';
-require_once './app/repositories/CategoryRepository.php';
 require_once './app/core/Controller.php';
 require_once './app/trait/FormTrait.php';
 
@@ -17,14 +16,8 @@ class ArticleController extends Controller{
 		$utilisateurActif = $authService->getUtilisateur();
 
         $articleRepo = new ArticleRepository();
-        $categoryRepo = new CategoryRepository();
 
         $articles = $articleRepo->findAll();
-
-        foreach ($articles as $article) {
-            $category = $categoryRepo->findByArticle($article);
-            $article->setCategory($category);
-        }
 
         $this->view('/article/index.html.twig',  [
 			'articles' => $articles, 
@@ -35,8 +28,6 @@ class ArticleController extends Controller{
 
     public function create() {
         $this->checkAuth();
-        $repository = new CategoryRepository();
-        $categories =  $repository->findAll();
 
 		$authService = new AuthService();
 		$utilisateurActif = $authService->getUtilisateur();
@@ -114,7 +105,7 @@ class ArticleController extends Controller{
         $this->view('/article/article_show.html.twig', ['article' => $article]);
     }
 
-    public function update()
+    /*public function update()
     {
         $this->checkAuth();
 
@@ -195,7 +186,7 @@ class ArticleController extends Controller{
             'data' => $data,
             'errors' => $errors
         ]);
-    }
+    }*/
 
 
 }
