@@ -24,15 +24,17 @@ class EvenementRepository {
 
     public function create(Evenement $evenement): bool {
         $stmt = $this->pdo->prepare('
-        INSERT INTO Evenement VALUES (:nom, :date, :description, :adresse, :nb_places)
+        INSERT INTO Evenement 
+		VALUES (:id, :nom, :date, :description, :adresse, :nb_places)
     ');
 
         return $stmt->execute([
+			'id' => $this->getNumberOfEvenements()+1,
             'nom' => $evenement->getNom(),
-            'date' => $evenement->getDateHeure(),
+            'date' => $evenement->getDate_heure(),
             'description' => $evenement->getDescription(),
             'adresse' => $evenement->getAdresse(),
-            'nb_places' => $evenement->getNbPlaces()
+            'nb_places' => $evenement->getNb_places()
         ]);
     }
 
@@ -48,6 +50,23 @@ class EvenementRepository {
     
         return $row ? $this->createEvenementFromRow($row) : null;
     }
+
+	public function getNumberOfEvenements() : int
+	{
+        $stmt = $this->pdo->query('SELECT MAX(id) FROM Evenement');
+
+		var_dump($stmt->fetch(PDO::FETCH_ASSOC));
+
+		$row = $stmt->fetch(PDO::FETCH_ASSOC); 
+
+		var_dump($row);
+
+		$max = (int) $row["max"];
+		return $max;
+		
+		
+			
+	}
     
 
 }

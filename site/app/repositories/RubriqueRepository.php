@@ -46,5 +46,10 @@ class RubriqueRepository {
         return $row ? $this->createRubriqueFromRow($row) : null;
     }
     
+	public function add(Rubrique $rubrique): bool
+	{
+		$stmt = $this->pdo->prepare("INSERT INTO Rubrique (name) VALUES (:name)");
+		return $stmt->execute(['name' => $category->getName()]);
+	}
 
 }

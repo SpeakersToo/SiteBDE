@@ -1,13 +1,14 @@
 <?php
 
 require_once './app/services/AuthService.php';
+require_once './app/services/EvenementService.php';
 require_once './app/core/Controller.php';
 require_once './app/repositories/EvenementRepository.php';
 require_once './app/trait/FormTrait.php';
 
 class EvenementController extends Controller{
 
-    //use FormTrait;
+    use FormTrait;
 
     public function index() {
         //$this->checkAuth();
@@ -44,6 +45,34 @@ class EvenementController extends Controller{
 
         $this->view('/evenement/evenement_show.html.twig', ['evenement' => $evenement]);
     }
+
+	public function create() 
+	{
+        //$this->checkAuth();
+
+        $data = $this->getAllPostParams();
+        $errors = [];
+
+        if (!empty($data)) {
+            try {
+                $evenementService = new EvenementService();
+                $evenementService->create($data);
+                $this->redirectTo('evenements.php');
+            } catch (Exception $e) {
+                $errors = explode(', ', $e->getMessage());
+            }
+        }
+
+		//var_dump($data); // array(0) { }  
+
+        $this->view('/evenement/evenement_create.html.twig', [
+            'data' => $data,
+            'errors' => $errors,
+			'title' => 'Création d\'un événement'
+        ]);
+    }
+
+
 	/*public function update()
     {
         $this->checkAuth();
