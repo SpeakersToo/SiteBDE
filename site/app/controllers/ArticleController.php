@@ -2,6 +2,7 @@
 
 require_once './app/services/AuthService.php';
 require_once './app/repositories/ArticleRepository.php';
+require_once './app/repositories/SousArticleRepository.php';
 require_once './app/core/Controller.php';
 require_once './app/trait/FormTrait.php';
 
@@ -16,11 +17,15 @@ class ArticleController extends Controller{
 		$utilisateurActif = $authService->getUtilisateur();
 
         $articleRepo = new ArticleRepository();
+        $sousArticleRepo = new SousArticleRepository();
 
-        $articles = $articleRepo->findAll();
+        $sousArticles = $sousArticleRepo->findAll();
+        //$articles = $articleRepo->findAll();
 
+        var_dump($sousArticles);
         $this->view('/article/index.html.twig',  [
-			'articles' => $articles, 
+            
+			'articles' => $sousArticles, 
 			'isAdmin' => $utilisateurActif && $utilisateurActif->estAdmin(),
 			'utilisateurActif' => $utilisateurActif
 		]);

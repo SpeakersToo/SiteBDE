@@ -3,8 +3,8 @@ class SousArticle {
 
     public function __construct(
         private ?int $id,
-        private int $article_id,
-        private string $couleur,
+        private Article $article,
+        private ?string $couleur,
         private ?string $taille,
         private int $stock
     ) {}
@@ -13,8 +13,8 @@ class SousArticle {
         return $this->id;
     }
 
-    public function getArticleId(): int {
-        return $this->article_id;
+    public function getArticle(): Article {
+        return $this->article;
     }
 
     public function getCouleur(): ?string {
@@ -28,6 +28,7 @@ class SousArticle {
     public function getStock(): int {
         return $this->stock;
     }
+    
 
     public function setArticleId(int $article_id): void {
         $this->article_id = $article_id;
