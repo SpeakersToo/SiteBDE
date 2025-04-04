@@ -24,10 +24,6 @@ class HomeController extends Controller
         $evenements = $evenementRepo->findAll();
 		$rubriques = $rubriqueRepo->findAll();
 
-		if (!$rubriques) 
-		{
-			die("Rubrique introuvable.");
-		}
 
         $this->view('index.html.twig',  [
             'title' => 'Le site du BDE',
