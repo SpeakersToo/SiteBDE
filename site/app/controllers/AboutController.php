@@ -1,6 +1,7 @@
 <?php
 
 require_once './app/core/Controller.php';
+require_once './app/services/AuthService.php';
 
 class AboutController extends Controller
 {
@@ -9,6 +10,9 @@ class AboutController extends Controller
         if(session_status() == PHP_SESSION_NONE)
            session_start();
 
-       $this->view('/about/index.html.twig',  ['title' => 'Le site du BDE']);
+		$authService = new AuthService();
+		$utilisateurActif = $authService->getUtilisateur();
+
+       $this->view('/about/index.html.twig',  ['title' => 'Le site du BDE', 'utilisateurActif' => $utilisateurActif,]);
    }
 }

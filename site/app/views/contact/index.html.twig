@@ -1,0 +1,70 @@
+{% extends '_template/base.html.twig' %}
+
+{% block body %}
+
+<style>
+textarea {
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+width:100%;
+}
+</style>
+
+<div class="most-popular">
+    <div class="container">
+        <div class="heading-section text-left mb-5">
+            <h2 class="mb-4">Nous contacter</h2>
+        </div>
+
+		<form method="post" action="">
+			<p>Nom de famille :</p>
+			<div class="input-group">
+				<input type="name" name="nomfamille" class="form-control" placeholder="Lefebvre" required>
+			</div>
+
+			<br><p>Prénom :</p>
+			<div class="input-group">
+				<input type="name" name="prenom" class="form-control" placeholder="George" required>
+			</div>
+			
+			<br><p>Adresse email :</p>
+			<div class="input-group">
+				<input type="email" name="email" class="form-control" placeholder="georgelefebvre@gmail.com" required>
+			</div>
+			
+			<br><p>Sujet :</p>
+			<div class="input-group">
+				<input type="name" name="sujet" class="form-control" placeholder="Une nouvelle idée pour le site" required>
+			</div>
+
+			<textarea id="textarea1" rows="4" class="form-control my-3" placeholder="Ecrivez ici..."></textarea>
+
+			<button class="btn btn-primary btn-sm" type="submit" style="margin-bottom:100px"><i class="glyphicon glyphicon-send">Envoyer</i></button>
+		</form>
+    </div>
+
+	<div class="container">
+		<h2>Questions fréquemment posées</h2><br><br>
+
+
+		<h3>Quels sont les moyens de nous contacter ? </h3>
+		<p>Vous pouvez nous contacter via notre Instagram, sur Discord ou directement via la rubrique “Contact” située juste au-dessus.</p><br>
+
+		<h3>Comment s’inscrire ? </h3>
+		<p>Vous pouvez vous inscrire en appuyant sur la photo de profil, en haut à droite.</p><br>
+
+		<h3>Quel est le prix pour être adhérent ?</h3>
+		<p>Il n'y a pas de prix pour être adhérent actuellement, mais il est prévu qu'une cotisation soit demandée dans le futur afin d'être adhérent. </p><br>
+
+		<h3>Quels sont les moyens de paiement ?</h3>
+		<p>Vous pouvez payer pour toute raison en allant voir Evan, Aubin ou Bilel, en classe G1.</p><br>
+
+		<h3>Quels sont les avantages pour les membres ? </h3>
+		<p>Les membres ont la possibilité de pouvoir acheter dans la boutique du BDE, et pourrait avoir des réductions lors d'un événement futur.</p><br>
+
+		
+
+    </div>
+</div>
+{% endblock %}

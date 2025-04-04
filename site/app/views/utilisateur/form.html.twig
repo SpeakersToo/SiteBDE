@@ -1,0 +1,99 @@
+{% extends '_template/base.html.twig' %}
+
+{% block body %}
+
+{% if isAdmin %}
+<div class="d-flex justify-content-start mb-3">
+    <a href="utilisateurs.php" class="btn btn-secondary me-3">Gérer les utilisateurs</a>
+	<a href="commandes.php" class="btn btn-secondary">Gérer les commandes</a>
+</div>
+{% endif %}
+
+<form method="POST" action="{{ id ? 'utilisateur_update.php?id=' ~ id :  'utilisateur_create.php'}}" class="container mt-5">
+    <h1 class="mb-4">{{ id ? 'Mise à jour':'Création'}} d'un utilisateur</h1>
+
+    <!-- Erreurs -->
+    {% if errors %}
+        <div class="alert alert-danger text-center" role="alert">
+            <ul class="mb-0">
+        margin-top: 15px;        {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+	<!-- Numéro étudiant -->
+    <div class="mb-3">
+        <label for="numEtu" class="form-label">Numéro étudiant (20XXXXXX)</label>
+        <input type="tmargin-top: 15px;ext" name="numEtu" id="numEtu" class="form-control"
+               value="{{ data.numEtu }}" required>
+    </div>
+
+    <!-- Prénom d'utilisateur -->
+    <div class="mb-3">
+        <label for="prenom" class="form-label">Prénom</label>
+        <input type="text" name="prenom" id="prenom" class="form-control"
+               value="{{ data.prenom }}" required>
+    </div>
+
+    <!-- Nom d'utilisateur -->
+    <div class="mb-3">
+        <label for="nom" class="form-label">Nom</label>
+        <input type="text" name="nom" id="nom" class="form-control"
+               value="{{ data.nom }}" required>
+    </div>
+
+    <!-- Email -->
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" name="email" id="email" class="form-control"
+               value="{{ data.email }}" required>
+    </div>
+
+    <!-- Mot de passe -->
+    <div class="mb-3">
+        <label for="mdp" class="form-label">Mot de passe</label>
+        <input type="password" name="mdp" id="mdp" class="form-control">
+    </div>
+
+    <!-- Checkbox "Admin" - visible uniquement si l'utilisateur est admin -->
+    {% if isAdmin and utilisateurActif.id and id != 1 and id != utilisateurActif.id %}
+    <div class="mb-3 form-check">
+		<input type="hidden" name="estAdmin" value="0">
+        <input type="checkbox" name="estAdmin" id="estAdmin" class="form-check-input" 
+               {% if data.estAdmin %} checked {% endif %}>
+        <label for="estAdmin" class="form-check-label">Admin</label>
+    </div>
+    {% endif %}
+
+    <div class="mb-3 form-check">
+		<input type="hidden" name="newsletter" value="0">
+        <input type="checkbox" name="newsletter" id="newsletter" class="form-check-input" 
+               {% if data.newsletter %} checked {% endif %}>
+        <label for="newsletter" class="form-check-label">S'inscrire au newsletter</label>
+    </div>	
+
+    <!-- Bouton -->
+	<div class="d-flex justify-content-center mb-3">
+		<button type="submit" class="btn btn-primary">{{ id ? 'Mettre à jour':'Créer'}}</button>
+	</div>
+
+	<!-- Lien vers page de connexion -->
+	{% if not id %}
+	<div class="text-center mt-3 mb-3">
+		<a href="login.php">Vous avez déjà un compte ? Connectez-vous.</a>
+	</div>
+	{% endif %}
+</form>
+
+{% if id and id != 1 %}
+<div class="d-flex justify-content-center mt-3 mb-3">
+	<form method="POST" action="{{ 'utilisateur_delete.php?id=' ~ id }}">
+		<input type="hidden" name="id" value="{{ id }}">
+		<button type="submit" class="btn btn-danger" onclick="return confirm('Valider la suppression du compte ?')">Supprimer le compte</button>
+	</form>
+</div>
+{% endif %}
+
+{% endblock %}

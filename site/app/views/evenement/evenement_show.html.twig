@@ -1,0 +1,19 @@
+{% extends '_template/base.html.twig' %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>{{ evenement.nom }}</h1>
+        <p><strong>Date :</strong> {{ evenement.date_heure }}</p>
+        <p><strong>Description :</strong> {{ evenement.description }}</p>
+        <p><strong>Adresse :</strong> {{ evenement.adresse }}</p>
+        <p><strong>Nombre de places :</strong> {{ evenement.nb_places }}</p>
+
+        <img src="assets/images/evenement/evenement{{ evenement.id }}.jpg" 
+             alt="{{ evenement.nom }}" 
+             class="img-fluid" 
+             style="max-width: 400px;">
+
+        <br><br>
+        <a href="evenements.php" class="btn btn-primary">Retour à la liste</a>
+    </div>
+{% endblock %}

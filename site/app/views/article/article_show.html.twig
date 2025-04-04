@@ -1,0 +1,166 @@
+{% extends '_template/base.html.twig' %}
+
+{% block body %}
+    <div class="container mt-4">
+        <div class="mb-4">
+            <a href="boutique.php" class="btn-back">
+                &lt; Retour à la boutique
+            </a>
+            <h2 class="mb-3">{{ article.categorie }}</h2>
+        </div>
+
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-5">
+            <div class="product-info">
+                <h3 class="mb-3">{{ article.nom }}</h3>
+                <p class="mb-4">{{ article.description }}</p>
+
+                <p class="mb-4"><strong>Couleur :</strong>
+                    <div class="color-selector">
+                        {% set colors = [] %}
+                        {% for sousArticle in sousArticles %}
+                            {% if sousArticle.couleur %}
+                                {% if sousArticle.couleur not in colors %}
+                                    <div class="color-box"
+                                         style="background-color: {{ sousArticle.couleur }};"
+                                         data-color="{{ sousArticle.couleur }}"
+                                         {% if loop.first %} data-selected="true" {% endif %}
+                                    ></div>
+                                    {% set colors = colors | merge([sousArticle.couleur]) %}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </p>
+                
+                {% if article.categorie == 'TEXTILE' %}
+                    <p class="mb-4"><strong>Tailles :</strong>
+                        <select id="size-selector" class="form-select mb-4">
+                            <option>SÉLECTIONNER UNE TAILLE</option>
+                            {% set tailles = [] %}
+                            {% for sousArticle in sousArticles %}
+                                {% if sousArticle.taille %}
+                                    {% if sousArticle.taille not in tailles %}
+                                        <option value="{{ sousArticle.taille }}">{{ sousArticle.taille }}</option>
+                                        {% set tailles = tailles | merge([sousArticle.taille]) %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </p>
+                {% endif %}
+            </div>
+
+            <div class="product-image text-center">
+                <img id="product-image" src="assets/images/boutique/article{{ article.id }}.jpg" 
+                     alt="{{ article.nom }}" 
+                     class="img-fluid" 
+                     style="max-width: 320px;">
+            </div>
+
+            <div class="product-purchase text-right">
+                <h3 class="mb-4">{{ article.prix }} €</h3>
+                
+                <div id="stock-info" class="mb-4">
+                    <strong>Stock : </strong>
+                    <span id="stock-quantity">Sélectionnez une couleur et une taille</span>
+                </div>
+
+                <form method="post" action="{#purchase.php?article_id={{ article.id }}#}">
+                    <button class="btn btn-secondary w-100">AJOUTER AU PANIER</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .color-selector {
+            display: flex;
+            gap: 10px;
+        }
+
+        .color-box {
+            width: 30px;
+            height: 30px;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .color-box[data-selected="true"] {
+            border: 2px solid #333;
+        }
+
+        .container {
+            max-width: 950px;
+        }
+
+        /* Espacement encore plus grand entre les éléments */
+        .product-info, .product-image, .product-purchase {
+            flex: 1;
+            padding: 25px;
+        }
+        .mb-3 { margin-bottom: 20px; } /* Espacement plus grand entre les titres */
+        .mb-4 { margin-bottom: 25px; } /* Espacement plus grand entre les sections */
+
+        /* Bouton retour sans bord et avec un effet hover */
+        .btn-back {
+            font-size: 16px;
+            padding: 10px 14px;
+            text-decoration: none;
+            display: inline-block;
+            color: #333;
+            background: none;
+            border: none;
+            font-weight: bold;
+        }
+        .btn-back:hover {
+            color: #000;
+            text-decoration: underline;
+        }
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const colorBoxes = document.querySelectorAll('.color-box');
+            const sizeSelector = document.getElementById('size-selector');
+            const stockInfo = document.getElementById('stock-info');
+            const stockQuantity = document.getElementById('stock-quantity');
+            const productImage = document.getElementById('product-image');
+            let selectedColor = colorBoxes[0].getAttribute('data-color').toLowerCase();
+            let selectedSize = sizeSelector.value;
+            colorBoxes[0].setAttribute('data-selected', 'true');
+
+            function updateStock() {
+                let stock = 'Indisponible';
+
+                {% for sousArticle in sousArticles %}
+                    if ("{{ sousArticle.couleur | lower }}" === selectedColor && "{{ sousArticle.taille }}" === selectedSize) {
+                        stock = "{{ sousArticle.stock }}";
+                    }
+                {% endfor %}
+
+                stockQuantity.textContent = `Disponible: ${stock}`;
+            }
+
+            colorBoxes.forEach(function(box) {
+                box.addEventListener('click', function() {
+                    colorBoxes.forEach(function(b) {
+                        b.removeAttribute('data-selected');
+                    });
+                    box.setAttribute('data-selected', 'true');
+                    selectedColor = box.getAttribute('data-color').toLowerCase();
+                    updateStock();
+
+                    productImage.src = `assets/images/boutique/article{{ article.id }}_${selectedColor}.jpg`;
+                });
+            });
+
+            sizeSelector.addEventListener('change', function() {
+                selectedSize = sizeSelector.value;
+                updateStock();
+            });
+
+            updateStock();
+        });
+    </script>
+
+{% endblock %}

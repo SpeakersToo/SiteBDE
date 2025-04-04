@@ -1,0 +1,46 @@
+{% extends '_template/base.html.twig' %}
+
+{% block body %}
+<div class="row">
+	{% for evenement in evenements %}
+
+	
+	<div class="col-lg-3 col-md-4 col-sm-6 mb-4 " >
+		<a href="evenement_show.php?id={{ evenement.id }}" style="text-decoration:none; color:black">
+		<div class="card h-100 shadow-sm border-light bg-light" >
+			<!-- Contenu de la carte -->
+			<div class="card-body">
+				<h5 class="card-title">{{ evenement.nom }}</h5>
+			</div>
+			
+			<!-- Image de l'événement -->
+			<img src="assets/images/evenement/{{ evenement.nom_image }}"
+					alt="{{ evenement.nom }}"
+					class="card-img-top"
+					style="object-fit: cover; height: 200px;">
+
+			<!-- Footer de la carte -->
+			<div class="card-footer d-flex justify-content-between align-items-center">
+				<a href="evenement_show.php?id={{ evenement.id }}" class="link">Voir l'événement</a>
+
+				<form method="POST" action="{{ 'evenement_delete.php?id=' ~ evenement.id }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?');" class="ms-auto mb-0">
+					<input type="hidden" name="id" value="{{ evenement.id }}">
+					<input type="submit" value="Supprimer" class="btn btn-sm btn-outline-danger"></button>
+				</form>
+			</div>
+
+		</div>
+		</a>
+	</div>
+	{% endfor %}
+</div>
+
+<!-- Ajouter une condition : uniquement si on est admin -->
+{% if isAdmin %}
+<div class="d-flex flex-row-reverse">
+    <a href="evenement_create.php" class="btn btn-success">
+        <i class="fa fa-plus"></i> Ajouter un évènement
+    </a>
+</div>
+{% endif %}
+{% endblock %}

@@ -2,7 +2,7 @@
 
 require_once './app/services/AuthService.php';
 require_once './app/repositories/ArticleRepository.php';
-require_once './app/repositories/CategoryRepository.php';
+require_once './app/repositories/SousArticleRepository.php';
 require_once './app/core/Controller.php';
 require_once './app/trait/FormTrait.php';
 
@@ -12,24 +12,30 @@ class ArticleController extends Controller{
 
     public function index() {
         $this->checkAuth();
+		
+		$authService = new AuthService();
+		$utilisateurActif = $authService->getUtilisateur();
 
         $articleRepo = new ArticleRepository();
-        $categoryRepo = new CategoryRepository();
+        $sousArticleRepo = new SousArticleRepository();
 
-        $articles = $articleRepo->findAll();
+        $sousArticles = $sousArticleRepo->findAll();
+        //$articles = $articleRepo->findAll();
 
-        foreach ($articles as $article) {
-            $category = $categoryRepo->findByArticle($article);
-            $article->setCategory($category);
-        }
-
-        $this->view('/article/index.html.twig',  ['articles' => $articles]);
+        var_dump($sousArticles);
+        $this->view('/article/index.html.twig',  [
+            
+			'articles' => $sousArticles, 
+			'isAdmin' => $utilisateurActif && $utilisateurActif->estAdmin(),
+			'utilisateurActif' => $utilisateurActif
+		]);
     }
 
     public function create() {
         $this->checkAuth();
-        $repository = new CategoryRepository();
-        $categories =  $repository->findAll();
+
+		$authService = new AuthService();
+		$utilisateurActif = $authService->getUtilisateur();
 
         $data = $this->getAllPostParams();
         $errors = [];
@@ -57,20 +63,20 @@ class ArticleController extends Controller{
                     throw new Exception(implode(', ', $errors));
                 }
 
-                $article = new Article(
-                    null,
-                    $data['name'],
-                    (float)$data['price'],
-                    $data['description'] ?? '',
-                    (int)$data['stock']
-                );
+                //$article = new Article(
+                //    null,
+                //    $data['name'],
+                //    (float)$data['price'],
+                //    $data['description'] ?? '',
+                //    (int)$data['stock']
+                //);
 
-                $article->setCategory(new Category((int)$data['category_id'], ''));
+                //$article->setCategory(new Category((int)$data['category_id'], ''));
 
                 $repository = new ArticleRepository();
-                if (!$repository->create($article)) {
-                    throw new Exception('Erreur lors de la création de l\'article.');
-                }
+                //if (!$repository->create($article)) {
+                 //   throw new Exception('Erreur lors de la création de l\'article.');
+                //}
 
                 $this->redirectTo('articles.php');
             } catch (Exception $e) {
@@ -78,10 +84,11 @@ class ArticleController extends Controller{
             }
         }
 
-        $this->view('/article/form', [
+        $this->view('/article/form.html.twig', [
             'categories' => $categories,
             'data' => $data,
-            'errors' => $errors
+            'errors' => $errors,
+			'utilisateurActif' => $utilisateurActif
         ]);
     }
 
@@ -92,7 +99,26 @@ class ArticleController extends Controller{
         }
     }
 
-    public function update()
+    public function showArticle(int $id)
+    {
+        $articleRepo = new ArticleRepository();
+        $article = $articleRepo->findById($id);
+        
+        if (!$article) {
+            die("Article introuvable");
+        }
+    
+        $saRepo = new SousArticleRepository();
+        $sousArticles = $saRepo->findByArticleId($id);
+
+        $this->view('/article/article_show.html.twig', [
+            'article' => $article,
+            'sousArticles' => $sousArticles,
+        ]);
+    }
+    
+
+    /*public function update()
     {
         $this->checkAuth();
 
@@ -173,7 +199,7 @@ class ArticleController extends Controller{
             'data' => $data,
             'errors' => $errors
         ]);
-    }
+    }*/
 
 
 }

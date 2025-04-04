@@ -1,6 +1,7 @@
 <?php
 require_once './app/core/Repository.php';
 require_once './app/entities/Article.php';
+require_once './app/repositories/SousArticleRepository.php';
 
 class ArticleRepository {
     private $pdo;
@@ -35,7 +36,7 @@ class ArticleRepository {
 
     private function createArticleFromRow(array $row): Article
     {
-        return new Article($row['id'], $row['name'], $row['price'], $row['description'], $row['stock']);
+        return new Article($row['id'], $row['categorie'], $row['nom'], $row['description'], $row['prix']);
     }
 
     public function findById(int $id): ?Article

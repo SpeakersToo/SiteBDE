@@ -19,19 +19,28 @@ class AuthController extends Controller {
         // Si aucune donnée n'est envoyée en POST ou si la connexion échoue, afficher le formulaire
         if (!empty($postData))
         {
-            $userRepository = new UserRepository();
+            $userRepository = new UtilisateurRepository();
 
             $user = $userRepository->findByEmail($this->getPostParam('email'));
 
-            if($user !== null && $this->verify($this->getPostParam('password'),$user->getPassword()))
+            if($user !== null && 
+				$this->verify($this->getPostParam('password'),$user->getMdp()))
             {
-                $authService->setUser($user);
+                $authService->setUtilisateur($user);
                 $this->redirectTo('index.php');
             }
-            $data= empty($postData) ? []:['error'=>'Email ou mot de passe invalide'];// si des données existent, elles ne sont pas valide
+			// si des données existent, elles ne sont pas valide
+            $data= empty($postData) ? []:['error'=>'Email ou mot de passe invalide'];
 
         }
 
         $this->view('login.html.twig', $data ); // Affiche la vue login.php
     }
+	
+	public function logout() {
+		$authService = new AuthService();
+		$authService->logout();
+
+		$this->redirectTo('index.php');
+	}
 }

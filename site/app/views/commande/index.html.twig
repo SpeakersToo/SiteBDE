@@ -1,0 +1,52 @@
+{% extends '_template/base.html.twig' %}
+
+{% block body %}
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th scope="col">#ID</th>
+		<th scope="col">Acheteur</th>
+		<th scope="col">Article(s)</th>
+		<th scope="col">Option(s)</th>
+        <th scope="col">Qte</th>
+        <th scope="col">Total</th>
+		<th scope="col">Date</th>
+        <th scope="col">Statut</th>
+        <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for commande in commandes %}
+        <tr>
+            <td> {{ commande.id }} </td>
+			<td> {{ commande.acheteur }} </td>
+			<td> {{ commande.articles }} </td>
+			<td> {{ commande.options }} </td>
+            <td> {{ commande.qte }} </td>
+            <td> {{ commande.total }}€ </td>
+			<td> {{ commande.date }} </td>
+            <td>
+                {% if commande.statut == 'validée' %}
+                    <span class="badge bg-success">Validée</span>
+                {% elseif commande.statut == 'refusée' %}
+                    <span class="badge bg-danger">Refusée</span>
+                {% else %}
+                    <span class="badge bg-warning text-dark">En attente</span>
+                {% endif %}
+            </td>
+            <td>
+                <a href="commande_valider.php?id={{ commande.id }}" class="btn btn-success btn-sm" title="Valider la commande">
+                    <i class="fa fa-check"></i>
+                </a>
+                <a href="commande_refuser.php?id={{ commande.id }}" class="btn btn-warning btn-sm" title="Refuser la commande">
+                    <i class="fa fa-times"></i>
+                </a>
+                <a href="commande_delete.php?id={{ commande.id }}" class="btn btn-danger btn-sm" title="Supprimer la commande">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

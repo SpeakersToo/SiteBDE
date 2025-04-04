@@ -1,0 +1,61 @@
+{% extends '_template/base.html.twig' %}
+
+{% block body %}
+<div class="most-popular">
+    <div class="container">
+        <div class="heading-section text-left mb-5">
+            <h1 class="mb-4">BOUTIQUE</h1>
+            <p>Retrouvez ici tous les produits du BDE</p>
+        </div>
+        <div class="row">
+            {% for article in articles %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card h-100 shadow-sm border-light bg-light">
+                    <a href="article_show.php?id={{ article.id }}" style="text-decoration:none; color:black">
+                        <img src="assets/images/boutique/article{{ article.id }}.jpg"
+                            alt="{{ article.nom }}"
+                            class="card-img-top"
+                            style="object-fit: cover; height: 200px;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ article.nom }}</h5>
+                            <h6 class="text-muted">{{ article.categorie }}</h6>
+                            <p class="card-text text-truncate" style="max-height: 60px;">{{ article.description }}</p>
+                        </div>
+                    </a>
+
+                    <div class="card-footer d-flex flex-wrap">
+                        <p><strong>Disponible en :</strong></p>
+                        <div>
+                            {% set seenColors = [] %}
+                            {% for sousArticle in articlesSousArticles[article.id] %}
+                                {% if sousArticle.couleur %}
+                                    {% if sousArticle.couleur not in seenColors %}
+                                        <span class="color-box" style="background-color: {{ sousArticle.couleur }}; width: 20px; height: 20px; display: inline-block;"></span>
+                                        <span>{{ sousArticle.couleur }}</span>
+                                        {% set seenColors = seenColors | merge([sousArticle.couleur]) %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div>
+                            <span class="badge bg-success">Prix: {{ article.prix | number_format(2, ',', ' ') }}€</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+
+        </div>
+    </div>
+</div>
+
+<!-- Ajouter une condition : uniquement si on est admin -->
+{% if isAdmin %}
+<div class="d-flex flex-row-reverse">
+    <a href="article_create.php" class="btn btn-success">
+        <i class="fa fa-plus"></i> Ajouter un article
+    </a>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends '_template/base.html.twig' %}
+
+{% block body %}
+<form method="POST" action="evenement_create.php" class="container mt-5">
+    <h1 class="mb-4">Création d'un événement</h1>
+
+    <!-- Erreurs -->
+    {% if errors %}
+        <div class="alert alert-danger text-center" role="alert">
+            <ul class="mb-0">
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- Nom -->
+    <div class="mb-3">
+        <label for="nom" class="form-label">Nom</label>
+        <input type="text" name="nom" id="nom" class="form-control"
+               value="{{  data['nom'] ?? '' }}" required>
+    </div>
+
+    <!-- Date_heure -->
+    <div class="mb-3">
+        <label for="date_heure" class="form-label">Date et heure</label>
+        <input type="datetime-local" name="date_heure" id="date_heure" class="form-control"
+               value="{{  data['date_heure'] ?? '' }}" required>
+    </div>
+
+    <!-- Description -->
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea name="description" id="description" class="form-control" rows="4">{{  data['description'] ?? '' }}</textarea>
+    </div>
+
+    <!-- Adresse -->
+    <div class="mb-3">
+        <label for="adresse" class="form-label">Adresse</label>
+        <input type="text" name="adresse" id="adresse" class="form-control"
+               value="{{  data['adresse'] ?? '' }}" required>
+    </div>
+
+    <!-- Nb_places -->
+    <div class="mb-3">
+        <label for="nb_places" class="form-label">Nombre de places</label>
+        <input type="number" name="nb_places" id="nb_places" class="form-control"
+               min="0" value=" {{ data['nb_places'] ?? '' }}" required>
+    </div>
+
+    <!-- Image -->
+    <div class="mb-3">
+        <label for="nom_image" class="form-label">Image</label>
+		<input type="file" name="nom_image" accept="image/png, image/jpg, image/jpeg" />
+    </div>
+
+    <!-- Bouton -->
+    <button type="submit" class="btn btn-primary">Créer</button><br>
+</form>
+{% endblock %}
+

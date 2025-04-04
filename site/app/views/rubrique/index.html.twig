@@ -1,0 +1,41 @@
+{% extends '_template/base.html.twig' %}
+
+{% block body %}<div class="row">
+
+
+	{% for rubrique in rubriques %}
+	<div class="col-lg-3 col-md-4 col-sm-6 mb-4 ">
+		<a href="rubrique_show.php?id={{ rubrique.id }}" style="text-decoration:none">
+		<div class="card h-100 shadow-sm border-light bg-light">
+
+			<!-- Contenu de la carte -->
+			<div class="card-body">
+				<h5 class="card-title line-clamp">{{ rubrique.nom }}</h5>
+				<p class="card-text line-clamp" style="max-height: 80px;">{{ rubrique.description }}</p>
+			</div>
+
+			<!-- Footer de la carte -->
+			<div class="card-footer d-flex justify-content-between align-items-center">
+				<p class="link mb-0">Voir l'article</p>
+
+				<form method="POST" action="{{ 'rubrique_delete.php?id=' ~ rubrique.id }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette rubrique ?');" class="ms-auto mb-0">
+					<input type="hidden" name="id" value="{{ rubrique.id }}">
+					<input type="submit" value="Supprimer" class="btn btn-sm btn-outline-danger">
+				</form>
+			</div>
+
+		</div>
+		</a>
+	</div>
+	
+	{% endfor %}
+</div>
+		
+
+<!-- Ajouter une condition : uniquement si on est admin -->
+<div class="d-flex flex-row-reverse">
+    <a href="rubrique_create.php" class="btn btn-success">
+        <i class="fa fa-plus"></i> Ajouter une rubrique
+    </a>
+</div>
+{% endblock %}
