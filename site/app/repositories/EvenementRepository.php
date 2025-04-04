@@ -23,23 +23,30 @@ class EvenementRepository {
     }
 
     public function create(Evenement $evenement): bool {
-        $stmt = $this->pdo->prepare('
-        INSERT INTO Evenement (nom, date, description, adresse, nb_places)
-		VALUES (:nom, :date, :description, :adresse, :nb_places)
-    ');
-
-        return $stmt->execute([
-            'nom' => $evenement->getNom(),
-            'date' => $evenement->getDate_heure(),
-            'description' => $evenement->getDescription(),
-            'adresse' => $evenement->getAdresse(),
-            'nb_places' => $evenement->getNb_places()
-        ]);
+        try {
+			$stmt = $this->pdo->prepare('
+				INSERT INTO Evenement (nom, date, description, adresse, nb_places, nom_image) 
+				VALUES (:nom, :date, :description, :adresse, :nb_places, :nom_image)
+			');
+		
+			$stmt->execute([
+				'nom' => $evenement->getNom(),
+				'date' => $evenement->getDate_heure(),
+				'description' => $evenement->getDescription(),
+				'adresse' => $evenement->getAdresse(),
+				'nb_places' => $evenement->getNb_places(),
+				'nom_image' => $evenement->getNom_image()
+			]);
+			return true;
+		} catch (PDOException $e) {
+			echo "Erreur SQL : " . $e->getMessage();
+		}
+		
     }
 
     public function createEvenementFromRow(array $row)
     {
-        return new Evenement($row['id'], $row['nom'], $row['date'], $row['description'], $row['adresse'], $row['nb_places']);
+        return new Evenement($row['id'], $row['nom'], $row['date'], $row['description'], $row['adresse'], $row['nb_places'], $row['nom_image']);
     }
 
     public function findById(int $id): ?Evenement {
@@ -50,18 +57,6 @@ class EvenementRepository {
         return $row ? $this->createEvenementFromRow($row) : null;
     }
 
-	public function getNumberOfEvenements() : int
-	{
-		$stmt = $this->pdo->query('SELECT MAX(id) AS max_id FROM Evenement');
-
-		$row = $stmt->fetch(PDO::FETCH_ASSOC);
-	
-		var_dump($row);
-	
-		$max = (int) $row["max_id"];
-		return $max;
-			
-	}
     
 
 }

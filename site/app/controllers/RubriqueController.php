@@ -1,6 +1,7 @@
 <?php
 
 require_once './app/services/AuthService.php';
+require_once './app/services/RubriqueService.php';
 require_once './app/core/Controller.php';
 require_once './app/repositories/RubriqueRepository.php';
 require_once './app/trait/FormTrait.php';
@@ -8,7 +9,7 @@ require_once './app/trait/FormTrait.php';
 
 class RubriqueController extends Controller{
 
-    //use FormTrait;
+    use FormTrait;
 
     public function index() {
         //$this->checkAuth();
@@ -40,4 +41,31 @@ class RubriqueController extends Controller{
 
         $this->view('/rubrique/rubrique_show.html.twig', ['rubrique' => $rubrique]);
     }
+	
+	public function create() 
+	{
+        //$this->checkAuth();
+
+        $data = $this->getAllPostParams();
+        $errors = [];
+
+        if (!empty($data)) {
+            try {
+                $rubriqueService = new RubriqueService();
+                $rubriqueService->create($data);
+                $this->redirectTo('rubrique.php');
+            } catch (Exception $e) {
+                $errors = explode(', ', $e->getMessage());
+            }
+        }
+
+		//var_dump($data); // array(0) { }  
+
+        $this->view('/rubrique/rubrique_create.html.twig', [
+            'data' => $data,
+            'errors' => $errors,
+			'title' => 'Création d\'une rubrique'
+        ]);
+    }
+
 }

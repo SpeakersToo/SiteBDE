@@ -9,20 +9,23 @@ class BoutiqueController extends Controller
    public function index()
    {
 
-	
-		$articleRepo = new ArticleRepository();
 
-		$articles = $articleRepo->findAll();
+	$articleRepo = new ArticleRepository();
 
-        if(session_status() == PHP_SESSION_NONE)
-           session_start();
+	$articles = $articleRepo->findAll();
 
-		$authService = new AuthService();
-		$utilisateurActif = $authService->getUtilisateur();
+	if(session_status() == PHP_SESSION_NONE)
+		session_start();
 
-       $this->view('/boutique/index.html.twig',  ['title' => 'Le site du BDE',
-												  'articles' => $articles,
-												  'isAdmin' => $utilisateurActif && $utilisateurActif->estAdmin(),
-												  'utilisateurActif' => $utilisateurActif]);
-   }
+
+	foreach ($articles as $article) {;
+		var_dump($article->getSousArticles()); // Affiche tous les sous-articles pour chaque article
+	}
+	$authService = new AuthService();
+	$utilisateurActif = $authService->getUtilisateur();
+	$this->view('/boutique/index.html.twig',  ['title' => 'Le site du BDE',
+												'articles' => $articles,
+												'isAdmin' => $utilisateurActif && $utilisateurActif->estAdmin(),
+												'utilisateurActif' => $utilisateurActif]);
+	}
 }

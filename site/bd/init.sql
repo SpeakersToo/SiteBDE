@@ -30,7 +30,8 @@ CREATE TABLE Evenement (
                        date TIMESTAMP NOT NULL,
                        description TEXT NOT NULL,
                        adresse VARCHAR(255),
-                       nb_places INT NOT NULL
+                       nb_places INT NOT NULL,
+					   nom_image VARCHAR(255) 
 );
 
 -- Création de la table 'Article'

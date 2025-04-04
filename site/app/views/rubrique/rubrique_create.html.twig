@@ -1,0 +1,35 @@
+{% extends '_template/base.html.twig' %}
+
+{% block body %}
+<form method="POST" action="rubrique_create.php" class="container mt-5">
+    <h1 class="mb-4">Création d'une rubrique</h1>
+
+    <!-- Erreurs -->
+    {% if errors %}
+        <div class="alert alert-danger text-center" role="alert">
+            <ul class="mb-0">
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- Nom -->
+    <div class="mb-3">
+        <label for="nom" class="form-label">Nom</label>
+        <input type="text" name="nom" id="nom" class="form-control"
+               value="{{  data['nom'] ?? '' }}" required>
+    </div>
+
+    <!-- Description -->
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea name="description" id="description" class="form-control" rows="4">{{  data['description'] ?? '' }}</textarea>
+    </div>
+
+    <!-- Bouton -->
+    <button type="submit" class="btn btn-primary">Créer</button>
+</form>
+{% endblock %}
+

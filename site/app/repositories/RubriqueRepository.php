@@ -24,8 +24,10 @@ class RubriqueRepository {
 
     public function create(Rubrique $rubrique): bool {
         $stmt = $this->pdo->prepare('
-        INSERT INTO Rubrique VALUES (:nom, :description)
+        INSERT INTO Rubrique (nom, description) 
+		VALUES (:nom, :description)
     ');
+
 
         return $stmt->execute([
             'nom' => $rubrique->getNom(),
@@ -46,10 +48,5 @@ class RubriqueRepository {
         return $row ? $this->createRubriqueFromRow($row) : null;
     }
     
-	public function add(Rubrique $rubrique): bool
-	{
-		$stmt = $this->pdo->prepare("INSERT INTO Rubrique (name) VALUES (:name)");
-		return $stmt->execute(['name' => $category->getName()]);
-	}
 
 }
