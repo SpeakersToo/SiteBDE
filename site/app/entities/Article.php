@@ -1,7 +1,6 @@
 <?php
 class Article {
 
-    private array $sousArticles = [];
     public function __construct(private ?int $id,
     private string $categorie,
     private string $nom,
@@ -30,10 +29,6 @@ class Article {
     public function getDescription(): string {
         return $this->description;
     }
-
-    public function getSousArticles(): array {
-        return $this->sousArticles;
-    }
 	
     public function setCategorie(string $categorie): void {
         $this->categorie = $categorie;
@@ -50,14 +45,7 @@ class Article {
         $this->description = $description;
     }
 
-    public function setSousArticles(array $sousArticles): void {
-        $this->sousArticles = $sousArticles;
-    }
 
-    public function addSousArticle(SousArticle $sousArticle): void
-    {
-        $this->sousArticles[] = $sousArticle;
-    }
 
 }
 ?>

@@ -48,5 +48,8 @@ class RubriqueRepository {
         return $row ? $this->createRubriqueFromRow($row) : null;
     }
     
-
+	public function delete(int $id): bool {
+		$stmt = $this->pdo->prepare('DELETE FROM Rubrique WHERE id = :id');
+		return $stmt->execute(['id' => $id]);
+	}
 }

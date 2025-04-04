@@ -19,6 +19,19 @@ class SousArticleRepository {
         return $sousArticles;
     }
 
+    public function findByArticleId(int $id): array
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM Sous_article WHERE article_id = :id');
+        $stmt->execute(['id' => $id]);
+
+        $sousArticles = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $sousArticles[] = $this->createSousArticleFromRow($row);
+        }
+
+        return $sousArticles;
+    }
+
     /*public function create(SousArticle $sousArticle): bool {
         $ac = new ArticleRepository();
         $stmt = $this->pdo->prepare('
@@ -35,21 +48,16 @@ class SousArticleRepository {
     }*/
 
     private function createSousArticleFromRow(array $row): SousArticle {
-        $ac = new ArticleRepository();
-        $article = $ac->findById($row['article_id']);
+        $articleRepo = new ArticleRepository();
+        $article = $articleRepo->findById($row['article_id']);
 
-        $sousArticle = new SousArticle(
+        return new SousArticle(
             $row['id'], 
             $article,
             $row['couleur'], 
             $row['taille'], 
             $row['stock']
         );
-
-        if (!in_array($sousArticle, $article->getSousArticles())) {
-            $article->addSousArticle($sousArticle);
-        }
-        return $sousArticle;
     }
 
     public function findById(int $id): ?SousArticle
@@ -61,5 +69,6 @@ class SousArticleRepository {
             return $this->createSousArticleFromRow($sousArticle);
         return null;
     }
+
 }
 ?>

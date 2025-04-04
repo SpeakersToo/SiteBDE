@@ -68,4 +68,27 @@ class RubriqueController extends Controller{
         ]);
     }
 
+	public function delete()
+	{
+		$id = $this->getQueryParam('id');
+	
+		if ($id === null) {
+			throw new Exception('Rubrique ID is required.');
+		}
+	
+		$repository = new RubriqueRepository();
+		$rubrique = $repository->findById($id);
+	
+		if ($rubrique === null) {
+			throw new Exception('Rubrique not found');
+		}
+
+	
+		if (!$repository->delete($id)) {
+			throw new Exception('Error deleting the rubrique.');
+		}
+	
+		$this->redirectTo('rubrique.php');
+	}
+
 }

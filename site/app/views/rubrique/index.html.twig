@@ -16,7 +16,12 @@
 
 			<!-- Footer de la carte -->
 			<div class="card-footer d-flex">
-				<p class="link">Voir l'article</p>
+				<p class="link">Voir l'article</p><br>
+
+				<form method="POST" action="{{ 'rubrique_delete.php?id=' ~ rubrique.id }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette rubrique ?');">
+					<input type="hidden" name="id" value="{{ rubrique.id }}">
+					<input type="submit" value="Supprimer"></button>
+				</form>
 			</div>
 		</div>
 		</a>
