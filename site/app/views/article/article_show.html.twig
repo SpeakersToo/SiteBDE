@@ -2,7 +2,6 @@
 
 {% block body %}
     <div class="container mt-4">
-        <!-- Bouton retour à la boutique -->
         <div class="mb-4">
             <a href="boutique.php" class="btn-back">
                 &lt; Retour à la boutique
@@ -14,8 +13,7 @@
             <div class="product-info">
                 <h3 class="mb-3">{{ article.nom }}</h3>
                 <p class="mb-4">{{ article.description }}</p>
-                
-                <!-- Afficher les couleurs disponibles sous forme de boîtes -->
+
                 <p class="mb-4"><strong>Couleur :</strong>
                     <div class="color-selector">
                         {% set colors = [] %}
@@ -35,7 +33,6 @@
                 </p>
                 
                 {% if article.categorie == 'TEXTILE' %}
-                    <!-- Afficher les tailles disponibles juste au-dessus du bouton "Ajouter au panier" -->
                     <p class="mb-4"><strong>Tailles :</strong>
                         <select id="size-selector" class="form-select mb-4">
                             <option>SÉLECTIONNER UNE TAILLE</option>
@@ -54,7 +51,7 @@
             </div>
 
             <div class="product-image text-center">
-                <img src="assets/images/boutique/article{{ article.id }}.jpg" 
+                <img id="product-image" src="assets/images/boutique/article{{ article.id }}.jpg" 
                      alt="{{ article.nom }}" 
                      class="img-fluid" 
                      style="max-width: 320px;">
@@ -127,42 +124,41 @@
             const sizeSelector = document.getElementById('size-selector');
             const stockInfo = document.getElementById('stock-info');
             const stockQuantity = document.getElementById('stock-quantity');
-
-            // Sélectionner la première couleur par défaut
-            let selectedColor = colorBoxes[0].getAttribute('data-color');
+            const productImage = document.getElementById('product-image');
+            let selectedColor = colorBoxes[0].getAttribute('data-color').toLowerCase();
+            let selectedSize = sizeSelector.value;
             colorBoxes[0].setAttribute('data-selected', 'true');
 
-            // Fonction pour mettre à jour le stock en fonction de la couleur et de la taille
             function updateStock() {
-                const selectedSize = sizeSelector.value;
                 let stock = 'Indisponible';
 
-                // Trouver le stock pour la combinaison sélectionnée
                 {% for sousArticle in sousArticles %}
-                    if ("{{ sousArticle.couleur }}" === selectedColor && "{{ sousArticle.taille }}" === selectedSize) {
-                        stock = "{{ sousArticle.stock }}";  // Supposons qu'il y ait une propriété stock dans sousArticle
+                    if ("{{ sousArticle.couleur | lower }}" === selectedColor && "{{ sousArticle.taille }}" === selectedSize) {
+                        stock = "{{ sousArticle.stock }}";
                     }
                 {% endfor %}
 
                 stockQuantity.textContent = `Disponible: ${stock}`;
             }
 
-            // Ajouter un événement de clic sur chaque boîte de couleur
             colorBoxes.forEach(function(box) {
                 box.addEventListener('click', function() {
                     colorBoxes.forEach(function(b) {
-                        b.removeAttribute('data-selected'); // Enlever la sélection de toutes les couleurs
+                        b.removeAttribute('data-selected');
                     });
-                    box.setAttribute('data-selected', 'true'); // Ajouter la sélection à la couleur cliquée
-                    selectedColor = box.getAttribute('data-color'); // Mettre à jour la couleur sélectionnée
-                    updateStock(); // Mettre à jour le stock
+                    box.setAttribute('data-selected', 'true');
+                    selectedColor = box.getAttribute('data-color').toLowerCase();
+                    updateStock();
+
+                    productImage.src = `assets/images/boutique/article{{ article.id }}_${selectedColor}.jpg`;
                 });
             });
 
-            // Ajouter un événement de changement sur le sélecteur de taille
-            sizeSelector.addEventListener('change', updateStock);
+            sizeSelector.addEventListener('change', function() {
+                selectedSize = sizeSelector.value;
+                updateStock();
+            });
 
-            // Mettre à jour le stock initial par défaut
             updateStock();
         });
     </script>

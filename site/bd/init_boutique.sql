@@ -11,14 +11,14 @@ CALL CreateArticleWithSousArticle('TEXTILE', 'Pull', 'Un pull pour représenter 
 
 INSERT INTO Sous_article (article_id, couleur, taille, stock) VALUES
 (4, 'Black', 'S', 10),
-(4, 'Black', 'M', 10),
-(4, 'Black', 'L', 10),
-(4, 'Black', 'XL', 10),
-(4, 'White', 'S', 10),
-(4, 'White', 'M', 10),
-(4, 'White', 'L', 10),
-(4, 'White', 'XL', 10),
-(4, 'Pink', 'S', 10),
-(4, 'Pink', 'M', 10),
-(4, 'Pink', 'L', 10),
-(4, 'Pink', 'XL', 10);
+(4, 'Black', 'M', 8),
+(4, 'Black', 'L', 7),
+(4, 'Black', 'XL', 3),
+(4, 'Green', 'S', 42),
+(4, 'Green', 'M', 63),
+(4, 'Green', 'L', 10),
+(4, 'Green', 'XL', 27),
+(4, 'Orange', 'S', 12),
+(4, 'Orange', 'M', 6),
+(4, 'Orange', 'L', 19),
+(4, 'Orange', 'XL', 1);
