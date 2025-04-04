@@ -72,81 +72,26 @@ class EvenementController extends Controller{
         ]);
     }
 
+	public function delete()
+	{
+		$id = $this->getQueryParam('id');
+	
+		if ($id === null) {
+			throw new Exception('Evenement ID is required.');
+		}
+	
+		$repository = new EvenementRepository();
+		$evenement = $repository->findById($id);
+	
+		if ($evenement === null) {
+			throw new Exception('Evenement not found');
+		}
 
-	/*public function update()
-    {
-        $this->checkAuth();
-
-        $id = $this->getQueryParam('id');
-
-        if ($id === null) {
-            throw new Exception('Evenement ID is required.');
-        }
-        $evenementRepo = new EvenementRepository();
-
-        if ($evenement === null) {
-            throw new Exception('Evenement not found');
-        }
-
-        $data = array_merge([
-            'nom'=>$evenement->getNom(),
-            'stock'=>$article->getStock(),
-            'price'=>$article->getPrice(),
-            'description'=>$article->getDescription(),
-            'category_id'=>$article->getCategory()->getId()
-        ],$this->getAllPostParams()); //Get submitted data
-
-
-        $errors = [];
-
-        if (!empty($this->getAllPostParams())) {
-            try {
-
-                $errors = [];
-
-                // Validation des données
-                if (empty($data['category_id'])) {
-                    $errors[] = 'La catégorie est requise.';
-                }
-                if (empty($data['name'])) {
-                    $errors[] = 'Le nom est requis.';
-                }
-                if (empty($data['price']) || $data['price'] <= 0) {
-                    $errors[] = 'Le prix doit être supérieur à 0.';
-                }
-                if (empty($data['stock']) || $data['stock'] < 0) {
-                    $errors[] = 'Le stock ne peut pas être négatif.';
-                }
-
-                if (!empty($errors)) {
-                    throw new Exception(implode(', ', $errors));
-                }
-
-                $article = new Article(
-                    null,
-                    $data['name'],
-                    (float)$data['price'],
-                    $data['description'] ?? '',
-                    (int)$data['stock']
-                );
-
-                $article->setCategory(new Category((int)$data['category_id'], ''));
-
-                $repository = new ArticleRepository();
-                if (!$repository->create($article)) {
-                    throw new Exception('Erreur lors de la création de l\'article.');
-                }
-
-                $this->redirectTo('articles.php');
-            } catch (Exception $e) {
-                $errors = explode(', ', $e->getMessage());
-            }
-        }
-
-        $this->view('/article/form.html.twig', [
-            'categories' => $categories,
-            'data' => $data,
-            'errors' => $errors
-        ]);
-    }*/
+	
+		if (!$repository->delete($id)) {
+			throw new Exception('Error deleting the evenement.');
+		}
+	
+		$this->redirectTo('evenements.php');
+	}
 }
