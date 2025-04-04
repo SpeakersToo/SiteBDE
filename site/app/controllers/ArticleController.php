@@ -109,6 +109,7 @@ class ArticleController extends Controller{
         }
         $this->view('/article/article_show.html.twig', ['article' => $article]);
     }
+    
 
     /*public function update()
     {

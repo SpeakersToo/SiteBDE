@@ -12,13 +12,10 @@
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                 <div class="card h-100 shadow-sm border-light bg-light">
                     <a href="article_show.php?id={{ article.id }}" style="text-decoration:none; color:black">
-                        <!-- Image de l'article -->
                         <img src="assets/images/boutique/article{{ article.id }}.jpg"
-                             alt="{{ article.nom }}"
-                             class="card-img-top"
-                             style="object-fit: cover; height: 200px;">
-
-                        <!-- Contenu de la carte -->
+                            alt="{{ article.nom }}"
+                            class="card-img-top"
+                            style="object-fit: cover; height: 200px;">
                         <div class="card-body">
                             <h5 class="card-title">{{ article.nom }}</h5>
                             <h6 class="text-muted">{{ article.categorie }}</h6>
@@ -26,27 +23,29 @@
                         </div>
                     </a>
 
-                    <!-- Footer de la carte -->
-                    <div class="card-footer d-flex">
+                    <div class="card-footer d-flex flex-wrap">
+                        <p><strong>Disponible en :</strong></p>
                         <div>
-                            <p><strong>Disponible en :</strong></p>
-                            {% for sousArticle in article.sousArticles %}
+                            {% set seenColors = [] %}
+                            {% for sousArticle in articlesSousArticles[article.id] %}
                                 {% if sousArticle.couleur %}
-                                    <span class="color-box" style="background-color: {{ sousArticle.couleur }};"></span>
-                                    <span>{{ sousArticle.couleur }}</span> <!-- Affichage de la couleur en texte -->
+                                    {% if sousArticle.couleur not in seenColors %}
+                                        <span class="color-box" style="background-color: {{ sousArticle.couleur }}; width: 20px; height: 20px; display: inline-block;"></span>
+                                        <span>{{ sousArticle.couleur }}</span>
+                                        {% set seenColors = seenColors | merge([sousArticle.couleur]) %}
+                                    {% endif %}
                                 {% endif %}
                             {% endfor %}
-
-                            <div>
-                                <span class="badge bg-success">Prix: {{ article.prix | number_format(2, ',', ' ') }}€</span>
-                            </div>
                         </div>
-
-                        </form>
+                        <div>
+                            <span class="badge bg-success">Prix: {{ article.prix | number_format(2, ',', ' ') }}€</span>
+                        </div>
                     </div>
                 </div>
             </div>
-            {% endfor %}
+        {% endfor %}
+
+
         </div>
     </div>
 </div>
