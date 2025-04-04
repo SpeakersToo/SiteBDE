@@ -18,22 +18,37 @@ class EvenementService {
 
 
 		// Validation des données
-		if (empty($data['nom'])) {
+		if (empty($data['nom'])) 
+		{
 			$errors[] = 'Le nom est requis.';
 		}
-		if (empty($data['date_heure'])) {
+
+		if (empty($data['date_heure'])) 
+		{
 			$errors[] = 'La date et l\'heure est requise.';
 		}
-		if (empty($data['description'])) {
+
+		if (empty($data['description'])) 
+		{
 			$errors[] = 'La description est requise.';
 		}
-		if (empty($data['adresse'])) {
+
+		if (empty($data['adresse'])) 
+		{
 			$errors[] = 'La description est requise.';
 		}
-		if (empty($data['nb_places']) || $data['nb_places'] < 0) {
+
+		if (empty($data['nb_places']) || $data['nb_places'] < 0) 
+		{
 			$errors[] = 'Le nombre de places ne peut pas être négatif.';
 		}
 
+		if (empty($data['nom_image'])) 
+		{
+			$errors[] = 'Une image est requise.';
+		}
+
+		
 		if (!empty($errors)) {
 			throw new Exception(implode(', ', $errors));
 		}
@@ -45,7 +60,7 @@ class EvenementService {
 			$data['description'] ?? '',
 			$data['adresse'],
 			(int)$data['nb_places'],
-			$data['image'] ?? ''
+			$data['nom_image'] ?? ''
 		);
 
 		$repository = new EvenementRepository();
@@ -53,11 +68,11 @@ class EvenementService {
 			throw new Exception('Erreur lors de la création de l\'evenement.');
 		}
 
-		$image = $data['image'];
-		$extension = pathinfo($image, PATHINFO_EXTENSION);
-		$chemin_fichier = './assets/images/evenement' + $repository->getNumberOfEvenements() + $extension;
+		/* Gardé au cas-où si on veut faire fonctionner les images
+		$nom_image = $data['nom_image'];
+		$chemin_fichier = './assets/images/evenement/' . $evenement->getNom_image();
 
-		file_put_contents( $chemin_fichier, fopen($image, 'r'));
+		file_put_contents( $chemin_fichier, fopen($nom_image, 'r'));*/
 
 		return $evenement;
 

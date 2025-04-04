@@ -7,7 +7,7 @@ class Evenement {
     private string $description,
     private string $adresse,
     private int $nb_places,
-    private ?string $image = null) {
+    private ?string $nom_image = '') {
 
     }
 
@@ -35,8 +35,8 @@ class Evenement {
         return $this->nb_places;
     }
 
-    public function getImage(): ?string {
-        return $this->image;
+    public function getNom_image(): string {
+        return $this->nom_image;
     }
 
 
@@ -60,8 +60,8 @@ class Evenement {
         $this->nb_places = $nb_places;
     }
 
-    public function setImage(string $image): void {
-        $this->image = $image;
+    public function setNom_image(string $nom_image): void {
+        $this->nom_image = $nom_image;
     }
 
 }
