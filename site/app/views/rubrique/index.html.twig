@@ -15,14 +15,15 @@
 			</div>
 
 			<!-- Footer de la carte -->
-			<div class="card-footer d-flex">
-				<p class="link">Voir l'article</p><br>
+			<div class="card-footer d-flex justify-content-between align-items-center">
+				<p class="link mb-0">Voir l'article</p>
 
-				<form method="POST" action="{{ 'rubrique_delete.php?id=' ~ rubrique.id }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette rubrique ?');">
+				<form method="POST" action="{{ 'rubrique_delete.php?id=' ~ rubrique.id }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette rubrique ?');" class="ms-auto mb-0">
 					<input type="hidden" name="id" value="{{ rubrique.id }}">
-					<input type="submit" value="Supprimer"></button>
+					<input type="submit" value="Supprimer" class="btn btn-sm btn-outline-danger">
 				</form>
 			</div>
+
 		</div>
 		</a>
 	</div>

@@ -20,8 +20,13 @@
 					style="object-fit: cover; height: 200px;">
 
 			<!-- Footer de la carte -->
-			<div class="card-footer d-flex">
+			<div class="card-footer d-flex justify-content-between align-items-center">
 				<a href="evenement_show.php?id={{ evenement.id }}" class="link">Voir l'événement</a>
+
+				<form method="POST" action="{{ 'evenement_delete.php?id=' ~ evenement.id }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?');" class="ms-auto mb-0">
+					<input type="hidden" name="id" value="{{ evenement.id }}">
+					<input type="submit" value="Supprimer" class="btn btn-sm btn-outline-danger"></button>
+				</form>
 			</div>
 
 		</div>

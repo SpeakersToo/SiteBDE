@@ -103,11 +103,18 @@ class ArticleController extends Controller{
     {
         $articleRepo = new ArticleRepository();
         $article = $articleRepo->findById($id);
-        if(!$article)
-        {
+        
+        if (!$article) {
             die("Article introuvable");
         }
-        $this->view('/article/article_show.html.twig', ['article' => $article]);
+    
+        $saRepo = new SousArticleRepository();
+        $sousArticles = $saRepo->findByArticleId($id);
+
+        $this->view('/article/article_show.html.twig', [
+            'article' => $article,
+            'sousArticles' => $sousArticles,
+        ]);
     }
     
 

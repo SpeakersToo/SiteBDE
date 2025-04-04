@@ -58,5 +58,9 @@ class EvenementRepository {
     }
 
     
+	public function delete(int $id): bool {
+		$stmt = $this->pdo->prepare('DELETE FROM Evenement WHERE id = :id');
+		return $stmt->execute(['id' => $id]);
+	}
 
 }
