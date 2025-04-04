@@ -23,12 +23,14 @@ class AuthController extends Controller {
 
             $user = $userRepository->findByEmail($this->getPostParam('email'));
 
-            if($user !== null && $this->verify($this->getPostParam('password'),$user->getMdp()))
+            if($user !== null && 
+				$this->verify($this->getPostParam('password'),$user->getMdp()))
             {
                 $authService->setUtilisateur($user);
                 $this->redirectTo('index.php');
             }
-            $data= empty($postData) ? []:['error'=>'Email ou mot de passe invalide'];// si des données existent, elles ne sont pas valide
+			// si des données existent, elles ne sont pas valide
+            $data= empty($postData) ? []:['error'=>'Email ou mot de passe invalide'];
 
         }
 
