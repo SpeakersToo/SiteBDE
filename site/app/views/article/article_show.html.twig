@@ -4,7 +4,6 @@
     <div class="container mt-4">
         <!-- Bouton retour à la boutique -->
         <div class="mb-4">
-        
             <a href="boutique.php" class="btn-back">
                 &lt; Retour à la boutique
             </a>
@@ -13,31 +12,62 @@
 
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-5">
             <div class="product-info">
-                
                 <h3 class="mb-3">{{ article.nom }}</h3>
                 <p class="mb-4">{{ article.description }}</p>
-                <p class="mb-4"><strong>Couleur :</strong> 
-                    <span class="color-box black"></span> Noir 
-                    <span class="color-box white"></span> Blanc
+                
+                <!-- Afficher les couleurs disponibles sous forme de boîtes -->
+                <p class="mb-4"><strong>Couleur :</strong>
+                    <div class="color-selector">
+                        {% set colors = [] %}
+                        {% for sousArticle in sousArticles %}
+                            {% if sousArticle.couleur %}
+                                {% if sousArticle.couleur not in colors %}
+                                    <div class="color-box"
+                                         style="background-color: {{ sousArticle.couleur }};"
+                                         data-color="{{ sousArticle.couleur }}"
+                                         {% if loop.first %} data-selected="true" {% endif %}
+                                    ></div>
+                                    {% set colors = colors | merge([sousArticle.couleur]) %}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </p>
+                
+                {% if article.categorie == 'TEXTILE' %}
+                    <!-- Afficher les tailles disponibles juste au-dessus du bouton "Ajouter au panier" -->
+                    <p class="mb-4"><strong>Tailles :</strong>
+                        <select id="size-selector" class="form-select mb-4">
+                            <option>SÉLECTIONNER UNE TAILLE</option>
+                            {% set tailles = [] %}
+                            {% for sousArticle in sousArticles %}
+                                {% if sousArticle.taille %}
+                                    {% if sousArticle.taille not in tailles %}
+                                        <option value="{{ sousArticle.taille }}">{{ sousArticle.taille }}</option>
+                                        {% set tailles = tailles | merge([sousArticle.taille]) %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </p>
+                {% endif %}
             </div>
+
             <div class="product-image text-center">
                 <img src="assets/images/boutique/article{{ article.id }}.jpg" 
                      alt="{{ article.nom }}" 
                      class="img-fluid" 
                      style="max-width: 320px;">
             </div>
+
             <div class="product-purchase text-right">
                 <h3 class="mb-4">{{ article.prix }} €</h3>
-                {% if article.categorie == 'TEXTILE' %}
-                    <select class="form-select mb-4">
-                        <option>SÉLECTIONNER UNE TAILLE</option>
-                        <option>S</option>
-                        <option>M</option>
-                        <option>L</option>
-                        <option>XL</option>
-                    </select>
-                {% endif %}
+                
+                <div id="stock-info" class="mb-4">
+                    <strong>Stock : </strong>
+                    <span id="stock-quantity">Sélectionnez une couleur et une taille</span>
+                </div>
+
                 <form method="post" action="{#purchase.php?article_id={{ article.id }}#}">
                     <button class="btn btn-secondary w-100">AJOUTER AU PANIER</button>
                 </form>
@@ -45,43 +75,96 @@
         </div>
     </div>
 
-<style>
-    .color-box {
-        display: inline-block;
-        width: 18px;
-        height: 18px;
-        border: 1px solid #000;
-        margin-right: 6px;
-    }
-    .black { background-color: black; }
-    .white { background-color: white; }
+    <style>
+        .color-selector {
+            display: flex;
+            gap: 10px;
+        }
 
-    .container {
-        max-width: 950px;
-    }
-    
-    /* Espacement encore plus grand entre les éléments */
-    .product-info, .product-image, .product-purchase {
-        flex: 1;
-        padding: 25px;
-    }
-    .mb-3 { margin-bottom: 20px; } /* Espacement plus grand entre les titres */
-    .mb-4 { margin-bottom: 25px; } /* Espacement plus grand entre les sections */
+        .color-box {
+            width: 30px;
+            height: 30px;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
 
-    /* Bouton retour sans bord et avec un effet hover */
-    .btn-back {
-        font-size: 16px;
-        padding: 10px 14px;
-        text-decoration: none;
-        display: inline-block;
-        color: #333;
-        background: none;
-        border: none;
-        font-weight: bold;
-    }
-    .btn-back:hover {
-        color: #000;
-        text-decoration: underline;
-    }
-</style>
+        .color-box[data-selected="true"] {
+            border: 2px solid #333;
+        }
+
+        .container {
+            max-width: 950px;
+        }
+
+        /* Espacement encore plus grand entre les éléments */
+        .product-info, .product-image, .product-purchase {
+            flex: 1;
+            padding: 25px;
+        }
+        .mb-3 { margin-bottom: 20px; } /* Espacement plus grand entre les titres */
+        .mb-4 { margin-bottom: 25px; } /* Espacement plus grand entre les sections */
+
+        /* Bouton retour sans bord et avec un effet hover */
+        .btn-back {
+            font-size: 16px;
+            padding: 10px 14px;
+            text-decoration: none;
+            display: inline-block;
+            color: #333;
+            background: none;
+            border: none;
+            font-weight: bold;
+        }
+        .btn-back:hover {
+            color: #000;
+            text-decoration: underline;
+        }
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const colorBoxes = document.querySelectorAll('.color-box');
+            const sizeSelector = document.getElementById('size-selector');
+            const stockInfo = document.getElementById('stock-info');
+            const stockQuantity = document.getElementById('stock-quantity');
+
+            // Sélectionner la première couleur par défaut
+            let selectedColor = colorBoxes[0].getAttribute('data-color');
+            colorBoxes[0].setAttribute('data-selected', 'true');
+
+            // Fonction pour mettre à jour le stock en fonction de la couleur et de la taille
+            function updateStock() {
+                const selectedSize = sizeSelector.value;
+                let stock = 'Indisponible';
+
+                // Trouver le stock pour la combinaison sélectionnée
+                {% for sousArticle in sousArticles %}
+                    if ("{{ sousArticle.couleur }}" === selectedColor && "{{ sousArticle.taille }}" === selectedSize) {
+                        stock = "{{ sousArticle.stock }}";  // Supposons qu'il y ait une propriété stock dans sousArticle
+                    }
+                {% endfor %}
+
+                stockQuantity.textContent = `Disponible: ${stock}`;
+            }
+
+            // Ajouter un événement de clic sur chaque boîte de couleur
+            colorBoxes.forEach(function(box) {
+                box.addEventListener('click', function() {
+                    colorBoxes.forEach(function(b) {
+                        b.removeAttribute('data-selected'); // Enlever la sélection de toutes les couleurs
+                    });
+                    box.setAttribute('data-selected', 'true'); // Ajouter la sélection à la couleur cliquée
+                    selectedColor = box.getAttribute('data-color'); // Mettre à jour la couleur sélectionnée
+                    updateStock(); // Mettre à jour le stock
+                });
+            });
+
+            // Ajouter un événement de changement sur le sélecteur de taille
+            sizeSelector.addEventListener('change', updateStock);
+
+            // Mettre à jour le stock initial par défaut
+            updateStock();
+        });
+    </script>
+
 {% endblock %}
